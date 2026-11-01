@@ -202,13 +202,13 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   await page.waitForTimeout(2000);
 
   // If this is the demo gallery and there is an "Open Gallery & Live Wall" link, transition to the live wall
-  if (targetUrl.includes('atifismagallery.memoira.art')) {
+  if (targetUrl.includes('demo.memoira.art') || targetUrl.includes('atifismagallery')) {
     try {
-      const liveWallLink = page.locator('a[href*="/wall/"], a:has-text("Open Gallery & Live Wall")').first();
-      if (await liveWallLink.isVisible({ timeout: 1500 }).catch(() => false)) {
-        console.log('🖼️ Membuka Live Wall & Grid Galeri Tetamu...');
+      const liveWallLink = page.locator('a[href*="/wall/"], a:has-text("Open Gallery & Live Wall"), a:has-text("Live Wall")').first();
+      if (await liveWallLink.isVisible({ timeout: 2000 }).catch(() => false)) {
+        console.log('🖼️ Membuka Live Wall & Grid Galeri Tetamu di demo.memoira.art...');
         await liveWallLink.click().catch(() => {});
-        await page.waitForTimeout(1500);
+        await page.waitForTimeout(2000);
       }
     } catch (e) {}
   }
@@ -216,8 +216,9 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   // Human-like smooth scroll down over 10-12 seconds
   console.log('📜 Melakukan smooth scrolling berperingkat (10-12 saat)...');
   const scrollSteps = 24;
-  const isLandingPage = targetUrl.includes('memoira.art') && !targetUrl.includes('atifismagallery');
-  const scrollAmount = isLandingPage ? 280 : 120;
+  const isLandingPage = targetUrl.includes('memoira.art') && !targetUrl.includes('demo.') && !targetUrl.includes('atifisma');
+  const scrollAmount = isLandingPage ? 280 : 140;
+
 
   for (let i = 0; i < scrollSteps; i++) {
     await page.evaluate((top) => {
@@ -337,12 +338,12 @@ async function run() {
   const queue = [
     {
       outputName: 'promo-1.mp4',
-      targetUrl: 'https://atifismagallery.memoira.art',
+      targetUrl: 'https://demo.memoira.art',
       hookText: 'Buku guestbook selalu kosong? Guna QR Gallery ni je atas meja makan 📸'
     },
     {
       outputName: 'promo-2.mp4',
-      targetUrl: 'https://atifismagallery.memoira.art',
+      targetUrl: 'https://demo.memoira.art',
       hookText: 'Tak payah tunggu 2 bulan, malam lepas majlis dah boleh scroll gambar candid tetamu 🤍'
     },
     {
@@ -358,8 +359,8 @@ async function run() {
 
   console.log('\n======================================================');
   console.log('✨ KETIGA-TIGA PROMO VIDEO TELAH BERJAYA DIJANA!');
-  console.log('1. promo-1.mp4 (Atif & Isma Demo Gallery)');
-  console.log('2. promo-2.mp4 (Candid Moments Relive Demo)');
+  console.log('1. promo-1.mp4 (Arman & Farah Official Demo Gallery)');
+  console.log('2. promo-2.mp4 (Candid Memories & Wishes Showcase)');
   console.log('3. promo-3.mp4 (Memoira Landing Page Showcase)');
   console.log('======================================================\n');
 }
