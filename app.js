@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 6. Interactive Suite Emulator & Guest Simulator (DIGITAL-GUESTBOOK)
+  // 6. Interactive Suite Emulator & Guest Simulator (demo-guestbook)
   // --------------------------------------------------------------------------
   
   // A. 4-Module Navigation Tab Switching
@@ -316,15 +316,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentDemoLang === 'ms') {
         currentDemoLang = 'en';
         if (demoLangText) demoLangText.textContent = 'MS | EN';
-        if (demoEventSubtitle) demoEventSubtitle.textContent = 'ENGAGEMENT CELEBRATION';
-        if (demoDateVenue) demoDateVenue.textContent = '26 December 2026 \u2022 OneTwoKL';
+        if (demoEventSubtitle) demoEventSubtitle.textContent = 'WEDDING CELEBRATION';
+        if (demoDateVenue) demoDateVenue.textContent = 'Saturday, 28 November 2026 \u2022 Glasshouse at Seputeh';
         if (demoFieldPlaceholder) demoFieldPlaceholder.textContent = 'Your name / Table (e.g. Sarah - Table 5)';
         if (demoCtaLabel) demoCtaLabel.textContent = 'Snap Photo & Sign Guestbook';
       } else {
         currentDemoLang = 'ms';
         if (demoLangText) demoLangText.textContent = 'EN | MS';
-        if (demoEventSubtitle) demoEventSubtitle.textContent = 'MAJLIS PERTUNANGAN';
-        if (demoDateVenue) demoDateVenue.textContent = '26 Disember 2026 \u2022 OneTwoKL';
+        if (demoEventSubtitle) demoEventSubtitle.textContent = 'MAJLIS PERKAHWINAN';
+        if (demoDateVenue) demoDateVenue.textContent = 'Sabtu, 28 November 2026 \u2022 Glasshouse at Seputeh';
         if (demoFieldPlaceholder) demoFieldPlaceholder.textContent = 'Your name / Table (e.g. Pak Long - Table 2)';
         if (demoCtaLabel) demoCtaLabel.textContent = 'Snap Photo & Sign Guestbook';
       }
@@ -432,21 +432,21 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       name: 'Sarah & Daniel',
       meta: 'Table 5 \u2022 Solemnization Guest',
-      wish: 'Selamat bertunang Aliff & Ilya! Wishing both of you endless love, patience, and barakah on your beautiful journey to the big wedding day!',
+      wish: 'Selamat pengantin baru Arman & Farah! Wishing both of you endless love, patience, and barakah on your beautiful journey together!',
       photo: 'assets/candid_guest_moments.jpg',
       sig: 'Sarah & Daniel'
     },
     {
       name: 'Pak Long Kamarul',
       meta: 'Table 2 \u2022 Family Elder',
-      wish: 'Alhamdulillah selamat bertunang Aliff & Ilya. Pak Long doakan dipermudahkan segala urusan persiapan majlis perkahwinan nanti. Terus berbahagia selalu!',
-      photo: 'assets/aliff-ilya-welcome.jpg',
+      wish: 'Alhamdulillah selamat pengantin baru Arman & Farah. Pak Long doakan dipermudahkan segala urusan dan diberkati Allah SWT selalu. Terus berbahagia ke anak cucu!',
+      photo: 'assets/arman-farah-welcome.jpg',
       sig: 'Pak Long Kamarul'
     },
     {
       name: 'Amir & Nadia',
       meta: 'Table 8 \u2022 University Friends',
-      wish: 'Cantik sangat majlis pertunangan harini! Tahniah korang berdua, dari zaman belajar sampai sekarang. We are so proud of you both! #AliffFoundIlya',
+      wish: 'Cantik sangat majlis perkahwinan harini! Tahniah korang berdua, dari zaman belajar sampai sekarang. We are so proud of you both! #ArmanFarahForever',
       photo: 'assets/honeymoon_keepsake.jpg',
       sig: 'Amir & Nadia'
     }
@@ -725,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitDemoEntry.addEventListener('click', () => {
       playCelebratoryChime();
 
-      // Trigger multi-stage confetti burst matching DIGITAL-GUESTBOOK
+      // Trigger multi-stage confetti burst matching demo-guestbook
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 100,
@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const guestNameInput = document.getElementById('simGuestName');
       const guestMessageInput = document.getElementById('simGuestMessage');
       const guestName = (guestNameInput && guestNameInput.value.trim()) || 'Pak Long Kamarul - Table 2';
-      const guestMsg = (guestMessageInput && guestMessageInput.value.trim()) || 'Tahniah Aliff & Ilya! Semoga berkekalan ke anak cucu!';
+      const guestMsg = (guestMessageInput && guestMessageInput.value.trim()) || 'Tahniah Arman & Farah! Semoga berkekalan ke anak cucu!';
 
       // Add to Live Wall carousel
       wallEntries.unshift({

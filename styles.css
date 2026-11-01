@@ -964,7 +964,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   4. Interactive "Test Drive" Demo (DIGITAL-GUESTBOOK Suite)
+   4. Interactive "Test Drive" Demo (demo-guestbook Suite)
    -------------------------------------------------------------------------- */
 .test-drive-section {
   padding: 4rem 0 5rem;
@@ -3783,7 +3783,7 @@ button {
   font-size: 1.1rem;
 }
 
-/* CSS Filters matching DIGITAL-GUESTBOOK */
+/* CSS Filters matching demo-guestbook */
 .filter-original {
   filter: none;
 }

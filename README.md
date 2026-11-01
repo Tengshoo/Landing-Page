@@ -22,17 +22,17 @@ Built with warm tactile luxury wedding editorial aesthetics (Cormorant Garamond 
 
 ---
 
-## Live Customer Demo (DIGITAL-GUESTBOOK Integration)
+## Live Customer Demo (demo-guestbook Integration)
 
-The live interactive demo showcase on this landing page connects directly to the customer configuration of [Tengshoo/DIGITAL-GUESTBOOK](https://github.com/Tengshoo/DIGITAL-GUESTBOOK):
+The live interactive demo showcase on this landing page connects directly to the customer configuration of [Tengshoo/demo-guestbook](https://github.com/Tengshoo/demo-guestbook):
 
-- **Event:** Aliff & Ilya's Engagement Celebration (Majlis Pertunangan)
-- **Date & Venue:** 26 December 2026 (26.12.2026) at OneTwoKL
-- **Hashtag:** #AliffFoundIlya
-- **Live Guestbook Web App:** [https://atifismagallery.memoira.art/](https://atifismagallery.memoira.art/)
-- **Live Projector Wall:** [https://atifismagallery.memoira.art/wall](https://atifismagallery.memoira.art/wall)
-- **Photobooth Studio:** [https://atifismagallery.memoira.art/photobooth](https://atifismagallery.memoira.art/photobooth)
-- **Admin Moderation:** [https://atifismagallery.memoira.art/admin](https://atifismagallery.memoira.art/admin) (PIN: 1234)
+- **Event:** Arman & Farah's Wedding Celebration (Majlis Perkahwinan)
+- **Date & Venue:** Saturday, 28 November 2026 (28.11.2026) at Glasshouse at Seputeh, Kuala Lumpur
+- **Hashtag:** #ArmanFarahForever
+- **Live Guestbook Web App:** [https://demo.memoira.art/](https://demo.memoira.art/)
+- **Live Projector Wall:** [https://demo.memoira.art/wall/](https://demo.memoira.art/wall/)
+- **Photobooth Studio:** [https://demo.memoira.art/photobooth/](https://demo.memoira.art/photobooth/)
+- **Admin Moderation:** [https://demo.memoira.art/admin/](https://demo.memoira.art/admin/) (PIN: 1234)
 
 ---
 
