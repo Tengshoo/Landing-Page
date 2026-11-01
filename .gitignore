@@ -9,3 +9,11 @@ desktop.ini
 # Environment / scratch
 scratch/
 .system_generated/
+
+# Video generator scratch & dependencies
+memoira-video-gen/node_modules/
+memoira-video-gen/raw-videos/
+memoira-video-gen/temp/
+memoira-video-gen/output-mp4/
+
+

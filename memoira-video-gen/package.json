@@ -1,0 +1,21 @@
+{
+  "name": "memoira-video-gen",
+  "version": "1.0.0",
+  "description": "Automated URL-to-Promo-Video generator using Playwright and FFmpeg",
+  "main": "generate-video.ts",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx generate-video.ts"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.27",
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
