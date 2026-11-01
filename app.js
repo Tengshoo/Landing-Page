@@ -889,4 +889,145 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // --------------------------------------------------------------------------
+  // 9. Package Booking Modal & WhatsApp Direct Link
+  // --------------------------------------------------------------------------
+  const MEMOIRA_WHATSAPP_NUMBER = '60163945710'; // WhatsApp recipient number (+60 16-394 5710)
+
+  const bookingModal = document.getElementById('bookingModal');
+  const bookingModalBackdrop = document.getElementById('bookingModalBackdrop');
+  const closeBookingBtn = document.getElementById('closeBookingBtn');
+  const cancelBookingBtn = document.getElementById('cancelBookingBtn');
+  const bookingForm = document.getElementById('bookingForm');
+  const bookingPackageSelect = document.getElementById('bookingPackageSelect');
+  const bookingSelectedPackageDisplay = document.getElementById('bookingSelectedPackageDisplay');
+  const bookingDateInput = document.getElementById('bookingDate');
+
+  // Set minimum date to today
+  if (bookingDateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    bookingDateInput.min = today;
+  }
+
+  const openBookingModal = (packageName) => {
+    if (!bookingModal) return;
+
+    if (packageName && bookingPackageSelect) {
+      bookingPackageSelect.value = packageName;
+      if (bookingSelectedPackageDisplay) {
+        bookingSelectedPackageDisplay.textContent = packageName;
+      }
+    }
+
+    bookingModal.classList.add('open');
+    bookingModal.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    // Autofocus Customer Name field
+    const customerNameInput = document.getElementById('bookingCustomerName');
+    if (customerNameInput) {
+      setTimeout(() => customerNameInput.focus(), 150);
+    }
+  };
+
+  const closeBookingModal = () => {
+    if (!bookingModal) return;
+    bookingModal.classList.remove('open');
+    bookingModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  };
+
+  // Sync package select change with display badge
+  if (bookingPackageSelect) {
+    bookingPackageSelect.addEventListener('change', () => {
+      if (bookingSelectedPackageDisplay) {
+        bookingSelectedPackageDisplay.textContent = bookingPackageSelect.value;
+      }
+    });
+  }
+
+  // Bind click on all buttons with .open-booking-btn
+  document.querySelectorAll('.open-booking-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pkg = btn.getAttribute('data-package') || 'Celebration (RM79)';
+      openBookingModal(pkg);
+    });
+  });
+
+  if (closeBookingBtn) closeBookingBtn.addEventListener('click', closeBookingModal);
+  if (cancelBookingBtn) cancelBookingBtn.addEventListener('click', closeBookingModal);
+  if (bookingModalBackdrop) bookingModalBackdrop.addEventListener('click', closeBookingModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && bookingModal && bookingModal.classList.contains('open')) {
+      closeBookingModal();
+    }
+  });
+
+  // Handle Form Submission -> Direct to WhatsApp with all filled details
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const customerName = (document.getElementById('bookingCustomerName')?.value || '').trim();
+      const coupleName = (document.getElementById('bookingCoupleName')?.value || '').trim();
+      const eventType = (document.getElementById('bookingEventType')?.value || '').trim();
+      const venue = (document.getElementById('bookingVenue')?.value || '').trim();
+      const rawDate = (document.getElementById('bookingDate')?.value || '').trim();
+      const hashtag = (document.getElementById('bookingHashtag')?.value || '').trim();
+      const selectedPkg = (bookingPackageSelect?.value || 'Celebration (RM79)');
+
+      if (!customerName || !coupleName || !eventType || !venue || !rawDate) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      // Format date nicely
+      let formattedDate = rawDate;
+      try {
+        const parts = rawDate.split('-');
+        if (parts.length === 3) {
+          const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          formattedDate = d.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+        }
+      } catch (err) {
+        formattedDate = rawDate;
+      }
+
+      // Play soft celebratory chime
+      if (typeof playCelebratoryChime === 'function') {
+        playCelebratoryChime();
+      }
+
+      // Construct WhatsApp Message
+      const message = 
+`Hi Memoira! I would like to book a guestbook package:
+
+*Package:* ${selectedPkg}
+*Customer Name:* ${customerName}
+*Couple Name:* ${coupleName}
+*Event Type:* ${eventType}
+*Venue:* ${venue}
+*Date:* ${formattedDate}
+*Hashtag:* ${hashtag || 'None / To be decided'}
+
+Please confirm availability and guide me through the tabletop QR setup. Thank you!`;
+
+      const encodedMsg = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${MEMOIRA_WHATSAPP_NUMBER}?text=${encodedMsg}`;
+
+      closeBookingModal();
+
+      // Launch WhatsApp (works on iOS, Android, and Desktop)
+      window.open(whatsappUrl, '_blank');
+    });
+  }
 });
