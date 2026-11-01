@@ -893,7 +893,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   // 9. Package Booking Modal & WhatsApp Direct Link
   // --------------------------------------------------------------------------
-  const MEMOIRA_WHATSAPP_NUMBER = '60163945710'; // WhatsApp recipient number (+60 16-394 5710)
+  const MEMOIRA_WHATSAPP_NUMBER = '601123371996'; // WhatsApp recipient number (+60 11-2337 1996)
 
   const bookingModal = document.getElementById('bookingModal');
   const bookingModalBackdrop = document.getElementById('bookingModalBackdrop');
