@@ -26,9 +26,9 @@ Built with warm tactile luxury wedding editorial aesthetics (Cormorant Garamond 
 
 The live interactive demo showcase on this landing page connects directly to the customer configuration of [Tengshoo/DIGITAL-GUESTBOOK](https://github.com/Tengshoo/DIGITAL-GUESTBOOK):
 
-- **Event:** Atif & Isma's Engagement Celebration (Majlis Pertunangan)
+- **Event:** Aliff & Ilya's Engagement Celebration (Majlis Pertunangan)
 - **Date & Venue:** 26 December 2026 (26.12.2026) at OneTwoKL
-- **Hashtag:** #AtifFoundIsma
+- **Hashtag:** #AliffFoundIlya
 - **Live Guestbook Web App:** [https://atifismagallery.memoira.art/](https://atifismagallery.memoira.art/)
 - **Live Projector Wall:** [https://atifismagallery.memoira.art/wall](https://atifismagallery.memoira.art/wall)
 - **Photobooth Studio:** [https://atifismagallery.memoira.art/photobooth](https://atifismagallery.memoira.art/photobooth)

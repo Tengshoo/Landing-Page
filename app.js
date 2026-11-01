@@ -394,12 +394,12 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
             <p class="voice-transcription-preview">
-              &ldquo;Huge congratulations to Atif &amp; Isma! Wishing you both an endless journey of love and joy!&rdquo;
+              &ldquo;Huge congratulations to Aliff &amp; Ilya! Wishing you both an endless journey of love and joy!&rdquo;
             </p>
           </article>
         `;
       } else if (activeTab === 'photoTab') {
-        const caption = document.getElementById('simPhotoCaption').value || 'Tahniah Atif & Isma!';
+        const caption = document.getElementById('simPhotoCaption').value || 'Tahniah Aliff & Ilya!';
         newCardHTML = `
           <article class="feed-card photo-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
             <div class="feed-card-header">
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       } else {
         const wishName = document.getElementById('simWishName').value || 'A Friend';
-        const wishMsg = document.getElementById('simWishMessage').value || 'Warmest congratulations on your engagement, Atif & Isma!';
+        const wishMsg = document.getElementById('simWishMessage').value || 'Warmest congratulations on your engagement, Aliff & Ilya!';
         newCardHTML = `
           <article class="feed-card wish-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
             <div class="feed-card-header">
