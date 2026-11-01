@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileDrawer.classList.add('open');
     mobileDrawer.setAttribute('aria-hidden', 'false');
     mobileToggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
   };
 
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileDrawer.classList.remove('open');
     mobileDrawer.setAttribute('aria-hidden', 'true');
     mobileToggle.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
   };
 
@@ -84,6 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return audioCtx;
   };
+
+  // iOS Safari and Android WebView AudioContext unlock on initial user gesture
+  const unlockAudioContext = () => {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+  };
+  ['touchstart', 'touchend', 'click'].forEach(evt => {
+    window.addEventListener(evt, unlockAudioContext, { once: true, passive: true });
+  });
 
   // Play soft harmonic wedding tones
   const playAmbientHarpChord = () => {
@@ -558,14 +571,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!demoModal) return;
     demoModal.classList.add('open');
     demoModal.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    resizeSignatureCanvas();
+    setTimeout(resizeSignatureCanvas, 60);
   };
 
   const closeModal = () => {
     if (!demoModal) return;
     demoModal.classList.remove('open');
     demoModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     if (isSimRecording) stopSimRecording();
   };
@@ -645,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // HTML5 Touch & Mouse Signature Canvas
+  // HTML5 Touch & Mouse Signature Canvas with Retina / High-DPI Support
   let isDrawing = false;
   let hasDrawnSignature = false;
   let sigCtx = null;
@@ -654,10 +669,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!signatureCanvas) return;
     const rect = signatureCanvas.getBoundingClientRect();
     if (rect.width > 0) {
-      signatureCanvas.width = rect.width;
-      signatureCanvas.height = rect.height || 110;
+      const dpr = window.devicePixelRatio || 1;
+      signatureCanvas.width = Math.floor(rect.width * dpr);
+      signatureCanvas.height = Math.floor((rect.height || 110) * dpr);
       sigCtx = signatureCanvas.getContext('2d');
       if (sigCtx) {
+        sigCtx.scale(dpr, dpr);
         sigCtx.strokeStyle = '#1C1917';
         sigCtx.lineWidth = 2.5;
         sigCtx.lineCap = 'round';
@@ -666,11 +683,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Recalculate canvas on orientation change or window resize
+  window.addEventListener('resize', () => {
+    if (demoModal && demoModal.classList.contains('open')) {
+      resizeSignatureCanvas();
+    }
+  }, { passive: true });
+
   const getCanvasPos = (e) => {
     if (!signatureCanvas) return { x: 0, y: 0 };
     const rect = signatureCanvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const touch = e.touches && e.touches.length > 0
+      ? e.touches[0]
+      : (e.changedTouches && e.changedTouches.length > 0 ? e.changedTouches[0] : e);
+    const clientX = touch.clientX;
+    const clientY = touch.clientY;
     return {
       x: clientX - rect.left,
       y: clientY - rect.top
@@ -686,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sigCtx.beginPath();
         sigCtx.moveTo(pos.x, pos.y);
       }
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
     };
 
     const moveDraw = (e) => {
@@ -694,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pos = getCanvasPos(e);
       sigCtx.lineTo(pos.x, pos.y);
       sigCtx.stroke();
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
     };
 
     const endDraw = () => {
@@ -706,15 +733,18 @@ document.addEventListener('DOMContentLoaded', () => {
     signatureCanvas.addEventListener('mouseup', endDraw);
     signatureCanvas.addEventListener('mouseleave', endDraw);
 
+    // iOS and Android touch events
     signatureCanvas.addEventListener('touchstart', startDraw, { passive: false });
     signatureCanvas.addEventListener('touchmove', moveDraw, { passive: false });
-    signatureCanvas.addEventListener('touchend', endDraw);
+    signatureCanvas.addEventListener('touchend', endDraw, { passive: false });
+    signatureCanvas.addEventListener('touchcancel', endDraw, { passive: true });
   }
 
   if (clearSignatureBtn && signatureCanvas) {
     clearSignatureBtn.addEventListener('click', () => {
       if (sigCtx) {
-        sigCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        const dpr = window.devicePixelRatio || 1;
+        sigCtx.clearRect(0, 0, signatureCanvas.width / dpr, signatureCanvas.height / dpr);
       }
       hasDrawnSignature = false;
     });
