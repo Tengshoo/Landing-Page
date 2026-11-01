@@ -914,9 +914,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!bookingModal) return;
 
     if (packageName && bookingPackageSelect) {
-      bookingPackageSelect.value = packageName;
-      if (bookingSelectedPackageDisplay) {
-        bookingSelectedPackageDisplay.textContent = packageName;
+      // Find matching option (exact match or substring match by plan keyword)
+      const options = Array.from(bookingPackageSelect.options);
+      const matched = options.find(opt => 
+        opt.value === packageName || 
+        opt.value.toLowerCase().includes(packageName.toLowerCase().split(' ')[0])
+      );
+      if (matched) {
+        bookingPackageSelect.value = matched.value;
+        if (bookingSelectedPackageDisplay) {
+          bookingSelectedPackageDisplay.textContent = matched.value;
+        }
+      } else {
+        bookingPackageSelect.value = packageName;
+        if (bookingSelectedPackageDisplay) {
+          bookingSelectedPackageDisplay.textContent = packageName;
+        }
       }
     }
 
@@ -953,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-booking-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const pkg = btn.getAttribute('data-package') || 'Celebration (RM79)';
+      const pkg = btn.getAttribute('data-package') || 'Celebration (RM79) - Save RM20';
       openBookingModal(pkg);
     });
   });
@@ -979,7 +992,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const venue = (document.getElementById('bookingVenue')?.value || '').trim();
       const rawDate = (document.getElementById('bookingDate')?.value || '').trim();
       const hashtag = (document.getElementById('bookingHashtag')?.value || '').trim();
-      const selectedPkg = (bookingPackageSelect?.value || 'Celebration (RM79)');
+      const selectedPkg = (bookingPackageSelect?.value || 'Celebration (RM79) - Save RM20');
 
       if (!customerName || !coupleName || !eventType || !venue || !rawDate) {
         alert('Please fill in all required fields.');
@@ -1011,7 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const message = 
 `Hi Memoira! I would like to book a guestbook package:
 
-*Package:* ${selectedPkg}
+*Package:* ${selectedPkg} (RM20 Launch Discount Applied)
 *Customer Name:* ${customerName}
 *Couple Name:* ${coupleName}
 *Event Type:* ${eventType}
@@ -1022,7 +1035,7 @@ document.addEventListener('DOMContentLoaded', () => {
 Please confirm availability and guide me through the tabletop QR setup. Thank you!`;
 
       const encodedMsg = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/601123371996?text=${encodedMsg}`;
+      const whatsappUrl = `https://wa.me/${MEMOIRA_WHATSAPP_NUMBER}?text=${encodedMsg}`;
 
       closeBookingModal();
 

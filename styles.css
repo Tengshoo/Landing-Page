@@ -3165,18 +3165,72 @@ button {
 
 .plan-price-wrap {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.original-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.82rem;
+}
+
+.original-price-label {
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.original-price-val {
+  color: var(--text-soft);
+  text-decoration: line-through;
+  font-weight: 600;
+  font-size: 0.88rem;
+  opacity: 0.75;
+}
+
+.discount-pill {
+  background: rgba(37, 211, 102, 0.12);
+  color: #128C7E;
+  border: 1px solid rgba(37, 211, 102, 0.28);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.popular-plan .discount-pill {
+  background: var(--gold-tint);
+  color: var(--gold-primary);
+  border-color: var(--gold-border);
+}
+
+.current-price-row {
+  display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 4px;
-  margin-bottom: 8px;
 }
 
+.current-price-row .currency,
 .plan-price-wrap .currency {
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-charcoal);
 }
 
+.current-price-row .price-val,
 .plan-price-wrap .price-val {
   font-family: var(--font-display);
   font-size: 3.4rem;
@@ -3185,6 +3239,7 @@ button {
   color: var(--text-charcoal);
 }
 
+.current-price-row .period,
 .plan-price-wrap .period {
   font-size: 0.85rem;
   color: var(--text-soft);

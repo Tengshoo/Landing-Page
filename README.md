@@ -15,10 +15,10 @@ Built with warm tactile luxury wedding editorial aesthetics (Cormorant Garamond 
 - **Interactive Audio Waveform Simulator:** Playable audio preview with Web Audio API synthesis.
 - **Interactive Guest Simulator:** Modal for prospective couples to test-drive voice recording, photo preview, and wish submission.
 - **Permanent Keepsake Archive:** 30-day live celebration gallery + automated Google Drive master delivery.
-- **Pricing in Malaysian Ringgit (RM):**
-  - **Intimate (RM49):** Up to 1,500 uploads (ROM & solemnization under 100 pax)
-  - **Celebration (RM79, Most Popular):** Up to 3,000 uploads (banquet 150-350 pax)
-  - **Forever (RM99):** Unlimited uploads (grand multi-session celebrations)
+- **Pricing in Malaysian Ringgit (RM) with RM20 Launch Discount:**
+  - **Intimate (RM49, Was RM69 - Save RM20):** Up to 1,500 uploads (ROM & solemnization under 100 pax)
+  - **Celebration (RM79, Was RM99 - Save RM20, Most Popular):** Up to 3,000 uploads (banquet 150-350 pax)
+  - **Forever (RM99, Was RM119 - Save RM20):** Unlimited uploads (grand multi-session celebrations)
 
 ---
 
