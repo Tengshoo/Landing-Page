@@ -1022,12 +1022,12 @@ document.addEventListener('DOMContentLoaded', () => {
 Please confirm availability and guide me through the tabletop QR setup. Thank you!`;
 
       const encodedMsg = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/${MEMOIRA_WHATSAPP_NUMBER}?text=${encodedMsg}`;
+      const whatsappUrl = `https://wa.me/601123371996?text=${encodedMsg}`;
 
       closeBookingModal();
 
-      // Launch WhatsApp (works on iOS, Android, and Desktop)
-      window.open(whatsappUrl, '_blank');
+      // Direct to WhatsApp (works on iOS, Android, and Desktop without popup blockers)
+      window.location.href = whatsappUrl;
     });
   }
 });
