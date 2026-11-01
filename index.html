@@ -14,6 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Canvas Confetti for Celebration Effects (matching DIGITAL-GUESTBOOK) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -265,60 +268,487 @@
       </div>
     </section>
 
-    <!-- 4. INTERACTIVE "TEST DRIVE" DEMO -->
+    <!-- 4. INTERACTIVE "TEST DRIVE" DEMO (DIGITAL-GUESTBOOK SUITE) -->
     <section class="test-drive-section" id="test-drive">
       <div class="container">
-        <div class="test-drive-card">
-          <div class="test-drive-content">
-            <span class="pill-badge">Live Customer Demo</span>
-            <h2 class="test-drive-title">
-              Experience the guest flow <span class="editorial-italic">right from your screen.</span>
-            </h2>
-            <p class="test-drive-desc">
-              Point your smartphone camera at the tabletop QR code to open the live guestbook configured for <strong>Aliff &amp; Ilya&apos;s Engagement Celebration</strong> at <strong>OneTwoKL</strong> (<strong>#AliffFoundIlya</strong>).
-            </p>
-            <div class="test-drive-actions">
-              <button class="btn btn-primary btn-md" id="triggerDemoModal">
-                Open Guest Simulator
-              </button>
-              <a href="https://atifismagallery.memoira.art/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-md">
-                <span>Open Live Web App</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-
-            <!-- Ecosystem Quick Links -->
-            <div class="live-demo-pills-row">
-              <span class="demo-pills-label">Explore Live Modules:</span>
-              <div class="demo-pills-group">
-                <a href="https://atifismagallery.memoira.art/" target="_blank" rel="noopener noreferrer" class="demo-pill-link">
-                  <span class="pill-dot"></span> Mobile Guestbook (/)
-                </a>
-                <a href="https://atifismagallery.memoira.art/wall" target="_blank" rel="noopener noreferrer" class="demo-pill-link">
-                  <span class="pill-dot"></span> Projector Wall (/wall)
-                </a>
-                <a href="https://atifismagallery.memoira.art/photobooth" target="_blank" rel="noopener noreferrer" class="demo-pill-link">
-                  <span class="pill-dot"></span> Photobooth Studio (/photobooth)
-                </a>
-                <a href="https://atifismagallery.memoira.art/admin" target="_blank" rel="noopener noreferrer" class="demo-pill-link">
-                  <span class="pill-dot"></span> Admin Moderation (/admin)
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="test-drive-qr-box">
-            <div class="qr-code-display">
-              <div class="qr-canvas-mock">
-                <img src="assets/demo_qr_code.png" alt="Scan QR code for Aliff &amp; Ilya's Live Digital Guestbook" class="qr-real-img" width="160" height="160">
-              </div>
-              <div class="qr-scan-label">
-                <span class="scan-camera-icon">&#9678;</span> Point camera to open live demo
-              </div>
-              <span class="qr-sub-url">atifismagallery.memoira.art</span>
-            </div>
-          </div>
+        
+        <!-- Section Header -->
+        <div class="section-header-centered">
+          <span class="pill-badge">Interactive Event Suite Emulator</span>
+          <h2 class="section-title">
+            Test drive the real guestbook <span class="editorial-italic">live on this screen.</span>
+          </h2>
+          <p class="section-lead">
+            Configured for <strong>Aliff &amp; Ilya&apos;s Engagement Celebration</strong> (<strong>#AliffFoundIlya</strong>) at <strong>OneTwoKL</strong>. Switch between all four live system modules below, or scan the tabletop QR code with your smartphone camera.
+          </p>
         </div>
+
+        <!-- 4-Module Navigation Tabs -->
+        <div class="demo-module-tabs" role="tablist" aria-label="Guestbook Suite Modules">
+          <button class="demo-module-tab active" data-module="mod-mobile" role="tab" aria-selected="true">
+            <span class="tab-module-badge">Cover &amp; Form</span>
+            <span class="tab-module-title">📱 Mobile Guest App (/)</span>
+          </button>
+          <button class="demo-module-tab" data-module="mod-photobooth" role="tab" aria-selected="false">
+            <span class="tab-module-badge">3-Cut Film Strip</span>
+            <span class="tab-module-title">📸 Photobooth Studio (/photobooth)</span>
+          </button>
+          <button class="demo-module-tab" data-module="mod-wall" role="tab" aria-selected="false">
+            <span class="tab-module-badge">Ballroom LED</span>
+            <span class="tab-module-title">📺 Live Projector Wall (/wall)</span>
+          </button>
+          <button class="demo-module-tab" data-module="mod-admin" role="tab" aria-selected="false">
+            <span class="tab-module-badge">Host PIN: 1234</span>
+            <span class="tab-module-title">🛡️ Host Admin &amp; Drive (/admin)</span>
+          </button>
+        </div>
+
+        <!-- Module Showcase Panes -->
+        <div class="demo-module-panes">
+
+          <!-- PANE 1: MOBILE GUESTBOOK (/) -->
+          <div class="demo-pane active" id="mod-mobile" role="tabpanel">
+            <div class="demo-pane-grid">
+              
+              <!-- Left: Authentic Smartphone Mockup -->
+              <div class="demo-phone-col">
+                <div class="demo-smartphone-shell">
+                  <div class="demo-phone-bezel">
+                    <div class="demo-phone-speaker"></div>
+                    <div class="demo-phone-camera-lens"></div>
+                  </div>
+
+                  <div class="demo-phone-screen">
+                    <!-- Background with dark vignette -->
+                    <div class="demo-phone-bg-overlay">
+                      <img src="assets/aliff-ilya-venue.jpg" alt="OneTwoKL celebration venue background" class="demo-venue-bg">
+                      <div class="demo-vignette"></div>
+                    </div>
+
+                    <!-- Top Bar -->
+                    <div class="demo-phone-top-bar">
+                      <span class="demo-hashtag-pill">
+                        <span class="sparkle-gold">&#10024;</span> #AliffFoundIlya
+                      </span>
+                      <button class="demo-lang-btn" id="demoLangBtn" title="Click to toggle language">
+                        <span id="demoLangText">EN | MS</span>
+                      </button>
+                    </div>
+
+                    <!-- Couple Portrait & Header -->
+                    <div class="demo-cover-main">
+                      <div class="demo-avatar-wrap">
+                        <img src="assets/aliff-ilya-welcome.jpg" alt="Aliff &amp; Ilya" class="demo-avatar-img">
+                        <div class="demo-heart-badge" title="Aliff &amp; Ilya">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#E11D48"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                      </div>
+
+                      <span class="demo-event-sub" id="demoEventSubtitle">MAJLIS PERTUNANGAN</span>
+                      <h3 class="demo-couple-heading">Aliff &amp; Ilya</h3>
+                      <p class="demo-date-venue" id="demoDateVenue">26 Disember 2026 &bull; OneTwoKL</p>
+                    </div>
+
+                    <!-- Interactive Form Entry -->
+                    <div class="demo-action-sheet">
+                      <div class="demo-guest-field-mock">
+                        <span class="field-icon">&#9998;</span>
+                        <span class="field-placeholder" id="demoFieldPlaceholder">Your name / Table (e.g. Pak Long - Table 2)</span>
+                      </div>
+
+                      <button class="demo-primary-action-btn" id="openPhoneSimulatorBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                        <span id="demoCtaLabel">Snap Photo &amp; Sign Guestbook</span>
+                      </button>
+
+                      <div class="demo-quick-sub-links">
+                        <button class="demo-quick-pill" data-goto-module="mod-photobooth">
+                          <span>📸</span> Photobooth Studio Strip
+                        </button>
+                        <button class="demo-quick-pill" data-goto-module="mod-wall">
+                          <span>📺</span> Live Projector Wall
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Tabletop QR Experience Box & Real-world Specs -->
+              <div class="demo-info-col">
+                <div class="demo-qr-card-showcase">
+                  <div class="demo-qr-card-header">
+                    <span class="pill-badge">Live Tabletop QR</span>
+                    <h3 class="demo-card-title">Point your phone to test the real guest flow</h3>
+                    <p class="demo-card-lead">
+                      No app downloads, no account registrations. Guests sit at their banquet table, point their camera at this card, and sign in seconds.
+                    </p>
+                  </div>
+
+                  <div class="demo-qr-center-box">
+                    <div class="demo-qr-frame">
+                      <img src="assets/demo_qr_code.png" alt="Scan QR code for Aliff &amp; Ilya's guestbook" class="qr-code-img" width="180" height="180">
+                    </div>
+                    <div class="demo-qr-meta">
+                      <span class="demo-scan-tip"><span class="scan-pulse-dot"></span> Scannable with iOS Safari &amp; Android Camera</span>
+                      <a href="https://atifismagallery.memoira.art/" target="_blank" rel="noopener noreferrer" class="demo-qr-url">
+                        atifismagallery.memoira.art &rarr;
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="demo-features-checklist">
+                    <div class="demo-check-item">
+                      <span class="demo-check-icon">&#10003;</span>
+                      <div>
+                        <strong>4 Photo Filters &amp; 5 Custom Frames:</strong> Guests choose Champagne Warm, Noir, or Polaroid borders.
+                      </div>
+                    </div>
+                    <div class="demo-check-item">
+                      <span class="demo-check-icon">&#10003;</span>
+                      <div>
+                        <strong>Digital Handwriting Signature:</strong> Finger-touch signature pad replaces the physical paper guestbook.
+                      </div>
+                    </div>
+                    <div class="demo-check-item">
+                      <span class="demo-check-icon">&#10003;</span>
+                      <div>
+                        <strong>Automated Google Drive Delivery:</strong> All raw high-resolution photos &amp; audio clips backed up forever.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="demo-actions-row">
+                    <button class="btn btn-primary btn-md" id="triggerDemoModal">
+                      Launch Guest Simulator
+                    </button>
+                    <a href="https://atifismagallery.memoira.art/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-md">
+                      <span>Open Live Web App</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PANE 2: PHOTOBOOTH STUDIO (/photobooth) -->
+          <div class="demo-pane" id="mod-photobooth" role="tabpanel">
+            <div class="photobooth-simulator-layout">
+              
+              <!-- Left Column: Camera Viewfinder Simulator -->
+              <div class="pb-viewfinder-card">
+                <div class="pb-card-header">
+                  <div class="pb-header-left">
+                    <span class="pb-status-dot"></span>
+                    <span class="pb-header-title">Photobooth Studio Viewfinder</span>
+                  </div>
+                  <span class="pb-slot-badge">3-Shot Sequence</span>
+                </div>
+
+                <div class="pb-viewfinder-screen" id="pbViewfinderScreen">
+                  <img src="assets/candid_guest_moments.jpg" alt="Photobooth camera preview" class="pb-camera-feed" id="pbCameraFeed">
+                  
+                  <!-- Viewfinder grid lines -->
+                  <div class="pb-grid-overlay">
+                    <div class="pb-corner top-left"></div>
+                    <div class="pb-corner top-right"></div>
+                    <div class="pb-corner bottom-left"></div>
+                    <div class="pb-corner bottom-right"></div>
+                  </div>
+
+                  <!-- Flash countdown overlay -->
+                  <div class="pb-countdown-overlay" id="pbCountdownOverlay">
+                    <span class="pb-countdown-num" id="pbCountdownNum">3</span>
+                  </div>
+                  <div class="pb-flash-overlay" id="pbFlashOverlay"></div>
+                </div>
+
+                <!-- Photobooth Controls -->
+                <div class="pb-controls-bar">
+                  <div class="pb-filter-pills">
+                    <span class="pb-filter-label">Filter:</span>
+                    <button class="pb-filter-btn active" data-pb-filter="none">Natural</button>
+                    <button class="pb-filter-btn" data-pb-filter="sepia(0.32) saturate(1.28) contrast(1.08)">Warm Gold</button>
+                    <button class="pb-filter-btn" data-pb-filter="grayscale(1) contrast(1.22)">Noir B&amp;W</button>
+                    <button class="pb-filter-btn" data-pb-filter="contrast(1.06) brightness(1.05) saturate(1.24) sepia(0.18)">Blush</button>
+                  </div>
+
+                  <div class="pb-shoot-row">
+                    <button class="btn btn-primary btn-md pb-shoot-btn" id="pbShootBtn">
+                      <span class="btn-camera-icon">📸</span>
+                      <span>Capture 3-Cut Strip (Live Countdown)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Vertical 3-Cut Film Strip Output -->
+              <div class="pb-strip-col">
+                <div class="pb-film-strip" id="pbFilmStrip">
+                  <div class="pb-strip-frame">
+                    
+                    <!-- Shot 1 -->
+                    <div class="pb-shot-slot">
+                      <img src="assets/aliff-ilya-welcome.jpg" alt="Aliff &amp; Ilya Photobooth Shot 1" class="pb-slot-img">
+                      <span class="pb-slot-num">1</span>
+                    </div>
+
+                    <!-- Shot 2 -->
+                    <div class="pb-shot-slot">
+                      <img src="assets/candid_guest_moments.jpg" alt="Photobooth Shot 2" class="pb-slot-img">
+                      <span class="pb-slot-num">2</span>
+                    </div>
+
+                    <!-- Shot 3 -->
+                    <div class="pb-shot-slot">
+                      <img src="assets/honeymoon_keepsake.jpg" alt="Photobooth Shot 3" class="pb-slot-img">
+                      <span class="pb-slot-num">3</span>
+                    </div>
+
+                    <!-- Strip Stamp matching DIGITAL-GUESTBOOK config -->
+                    <div class="pb-strip-stamp">
+                      <span class="pb-stamp-couple">Aliff &amp; Ilya</span>
+                      <span class="pb-stamp-date">26.12.2026 &bull; OneTwoKL</span>
+                      <span class="pb-stamp-tagline">romantic memories &hearts;</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="pb-strip-actions">
+                  <button class="btn btn-secondary btn-sm" id="pbDownloadBtn">
+                    <span>📥 Download Strip</span>
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="pbAttachBtn">
+                    <span>💌 Sign to Guestbook</span>
+                  </button>
+                  <a href="https://atifismagallery.memoira.art/photobooth" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                    <span>Open Live Photobooth &rarr;</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PANE 3: LIVE PROJECTOR WALL (/wall) -->
+          <div class="demo-pane" id="mod-wall" role="tabpanel">
+            <div class="wall-simulator-container">
+              
+              <!-- 16:9 Cinema Mockup -->
+              <div class="wall-screen-frame">
+                
+                <!-- Screen Top Header -->
+                <div class="wall-screen-header">
+                  <div class="wall-header-left">
+                    <span class="wall-live-beacon"></span>
+                    <span class="wall-header-title">Aliff &amp; Ilya Engagement &bull; Live Ballroom Projector Wall</span>
+                  </div>
+                  <div class="wall-header-right">
+                    <span class="wall-sync-badge">
+                      <span class="sync-dot"></span> Supabase Realtime Connected
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Spotlight Carousel Card -->
+                <div class="wall-main-stage">
+                  <div class="wall-spotlight-card" id="wallSpotlightCard">
+                    <div class="wall-photo-container">
+                      <div class="wall-photo-polaroid">
+                        <img src="assets/candid_guest_moments.jpg" alt="Live guest spotlight photo" class="wall-spotlight-img" id="wallPhoto">
+                        <span class="wall-polaroid-caption">forever &amp; always &hearts;</span>
+                      </div>
+                    </div>
+
+                    <div class="wall-content-container">
+                      <div class="wall-guest-header">
+                        <div class="wall-guest-avatar">S</div>
+                        <div>
+                          <h4 class="wall-guest-name" id="wallGuestName">Sarah &amp; Daniel</h4>
+                          <span class="wall-table-tag" id="wallGuestMeta">Table 5 &bull; Solemnization Guest</span>
+                        </div>
+                      </div>
+
+                      <blockquote class="wall-wish-quote" id="wallWishText">
+                        &ldquo;Selamat bertunang Aliff &amp; Ilya! Wishing both of you endless love, patience, and barakah on your beautiful journey to the big wedding day!&rdquo;
+                      </blockquote>
+
+                      <!-- Audio note playback bar on projector -->
+                      <div class="wall-audio-bar">
+                        <button class="wall-audio-play-btn" id="wallPlayAudioBtn" aria-label="Play voice blessing">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+                        </button>
+                        <div class="wall-audio-waveform">
+                          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <span class="wall-audio-time">0:14 voice blessing</span>
+                      </div>
+
+                      <!-- Signature Stamp -->
+                      <div class="wall-signature-stamp">
+                        <span class="signature-label">Digital Signature:</span>
+                        <div class="signature-display-box" id="wallSignatureBox">
+                          <span class="simulated-handwriting">Sarah &amp; Daniel</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Wall Bottom Carousel Control Bar -->
+                <div class="wall-control-footer">
+                  <div class="wall-cycle-progress-wrap">
+                    <div class="wall-cycle-progress-bar" id="wallCycleBar"></div>
+                  </div>
+
+                  <div class="wall-footer-bar">
+                    <div class="wall-controls">
+                      <button class="wall-btn-icon" id="wallPrevBtn" title="Previous Slide">&larr;</button>
+                      <button class="wall-btn-pill" id="wallPlayPauseBtn">Pause 7s Auto-Play</button>
+                      <button class="wall-btn-icon" id="wallNextBtn" title="Next Slide">&rarr;</button>
+                    </div>
+
+                    <!-- Ballroom Corner QR Code -->
+                    <div class="wall-corner-qr">
+                      <img src="assets/demo_qr_code.png" alt="Scan to sign live wall" class="wall-mini-qr">
+                      <div class="wall-qr-text">
+                        <span>Scan from your table:</span>
+                        <strong>atifismagallery.memoira.art</strong>
+                      </div>
+                    </div>
+
+                    <a href="https://atifismagallery.memoira.art/wall" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm wall-launch-btn">
+                      <span>Open Live Wall in Fullscreen ↗</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE 4: HOST ADMIN & GOOGLE DRIVE (/admin) -->
+          <div class="demo-pane" id="mod-admin" role="tabpanel">
+            <div class="admin-simulator-container">
+              
+              <div class="admin-header-row">
+                <div>
+                  <span class="pill-badge">Host Security &bull; Default PIN: 1234</span>
+                  <h3 class="admin-heading">Aliff &amp; Ilya &bull; Host Moderation &amp; Cloud Backup</h3>
+                </div>
+                <div class="admin-status-pill">
+                  <span class="sync-dot"></span> Admin Authenticated
+                </div>
+              </div>
+
+              <!-- 4 KPI Cards matching DIGITAL-GUESTBOOK -->
+              <div class="admin-kpi-grid">
+                <div class="admin-kpi-card">
+                  <span class="kpi-label">Total Submissions</span>
+                  <span class="kpi-val">142</span>
+                  <span class="kpi-sub">Allowed up to 1,500</span>
+                </div>
+                <div class="admin-kpi-card">
+                  <span class="kpi-label">Photos &amp; Strips</span>
+                  <span class="kpi-val">86</span>
+                  <span class="kpi-sub">Full-res JPEG saved</span>
+                </div>
+                <div class="admin-kpi-card">
+                  <span class="kpi-label">Audio Voice Notes</span>
+                  <span class="kpi-val">38</span>
+                  <span class="kpi-sub">Lossless audio recorded</span>
+                </div>
+                <div class="admin-kpi-card highlight-kpi">
+                  <span class="kpi-label">Google Drive Sync</span>
+                  <span class="kpi-val">100%</span>
+                  <span class="kpi-sub">Apps Script automated</span>
+                </div>
+              </div>
+
+              <!-- Moderation Table Simulation -->
+              <div class="admin-mod-table-card">
+                <div class="admin-table-header">
+                  <h4 class="admin-table-title">Recent Submissions Moderation Stream</h4>
+                  <span class="admin-table-hint">Tap any action to simulate host moderation</span>
+                </div>
+
+                <div class="admin-entries-list">
+                  
+                  <div class="admin-entry-row">
+                    <div class="admin-row-avatar">P</div>
+                    <div class="admin-row-info">
+                      <div class="admin-row-title-line">
+                        <strong>Pak Long Kamarul - Table 2</strong>
+                        <span class="admin-badge badge-audio">Voice Note</span>
+                        <span class="admin-badge badge-photo">Candid Photo</span>
+                      </div>
+                      <p class="admin-row-preview">&ldquo;Alhamdulillah selamat bertunang Aliff &amp; Ilya. Pak Long doakan dipermudahkan segala urusan perkahwinan...&rdquo;</p>
+                    </div>
+                    <div class="admin-row-actions">
+                      <span class="admin-status-approved">&#10003; Approved</span>
+                      <button class="admin-action-btn" title="Hide from wall">Hide</button>
+                      <button class="admin-action-btn danger" title="Delete">Delete</button>
+                    </div>
+                  </div>
+
+                  <div class="admin-entry-row">
+                    <div class="admin-row-avatar">S</div>
+                    <div class="admin-row-info">
+                      <div class="admin-row-title-line">
+                        <strong>Sarah &amp; Daniel - Table 5</strong>
+                        <span class="admin-badge badge-wish">Written Wish</span>
+                        <span class="admin-badge badge-photo">Polaroid Photo</span>
+                      </div>
+                      <p class="admin-row-preview">&ldquo;Selamat bertunang Aliff &amp; Ilya! Wishing both of you endless love and happiness!&rdquo;</p>
+                    </div>
+                    <div class="admin-row-actions">
+                      <span class="admin-status-approved">&#10003; Approved</span>
+                      <button class="admin-action-btn" title="Hide from wall">Hide</button>
+                      <button class="admin-action-btn danger" title="Delete">Delete</button>
+                    </div>
+                  </div>
+
+                  <div class="admin-entry-row pending-row">
+                    <div class="admin-row-avatar">A</div>
+                    <div class="admin-row-info">
+                      <div class="admin-row-title-line">
+                        <strong>Amir &amp; Nadia - Table 8</strong>
+                        <span class="admin-badge badge-booth">Photobooth Strip</span>
+                      </div>
+                      <p class="admin-row-preview">&ldquo;Cantik sangat majlis harini! Tahniah korang berdua #AliffFoundIlya&rdquo;</p>
+                    </div>
+                    <div class="admin-row-actions">
+                      <button class="btn btn-primary btn-xs">Approve for Wall</button>
+                      <button class="admin-action-btn danger">Reject</button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Google Drive Sync Banner -->
+                <div class="admin-drive-banner">
+                  <div class="drive-banner-left">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <div>
+                      <strong>Google Drive Master Vault:</strong>
+                      <p>script.google.com automated sync &bull; Folder: <code>Aliff &amp; Ilya Engagement Keepsakes 2026</code></p>
+                    </div>
+                  </div>
+                  <a href="https://atifismagallery.memoira.art/admin" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                    Open Real Admin Panel (PIN: 1234) &rarr;
+                  </a>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -1066,84 +1496,231 @@
     </div>
   </footer>
 
-  <!-- INTERACTIVE LIVE GUEST DEMO MODAL -->
+  <!-- INTERACTIVE LIVE GUEST DEMO MODAL (DIGITAL-GUESTBOOK SUBMISSION DRAWER) -->
   <div class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="demo-modal-backdrop" id="modalBackdrop"></div>
     <div class="demo-modal-dialog">
+      
+      <!-- Modal Header with Couple Avatar -->
       <div class="demo-modal-header">
-        <div>
-          <span class="modal-badge">Live Guestbook Simulator</span>
-          <h3 class="modal-title" id="modalTitle">Leave a wish for Aliff &amp; Ilya</h3>
+        <div class="modal-header-left">
+          <div class="modal-avatar-circle">
+            <img src="assets/aliff-ilya-welcome.jpg" alt="Aliff &amp; Ilya" class="modal-couple-avatar">
+          </div>
+          <div>
+            <span class="modal-badge">Live Guestbook Simulator</span>
+            <h3 class="modal-title" id="modalTitle">Leave a blessing for Aliff &amp; Ilya</h3>
+            <span class="modal-subtitle">Majlis Pertunangan &bull; OneTwoKL &bull; #AliffFoundIlya</span>
+          </div>
         </div>
         <button class="modal-close-btn" id="closeDemoBtn" aria-label="Close demo modal">&times;</button>
       </div>
 
-      <div class="demo-modal-tabs">
-        <button class="modal-tab-btn active" data-tab="voiceTab">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
-          Record Voice
-        </button>
-        <button class="modal-tab-btn" data-tab="photoTab">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-          Candid Photo
-        </button>
-        <button class="modal-tab-btn" data-tab="wishTab">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          Written Note
-        </button>
-      </div>
-
-      <div class="demo-modal-body">
+      <div class="demo-modal-scrollable-body">
         
-        <!-- Voice Note Tab -->
-        <div class="modal-tab-pane active" id="voiceTab">
+        <!-- STEP 1: VOICE RECORDER -->
+        <div class="sim-section-box">
+          <div class="sim-section-header">
+            <span class="sim-step-num">1</span>
+            <div>
+              <h4 class="sim-section-title">Record Voice Blessing (Optional)</h4>
+              <p class="sim-section-desc">Up to 60 seconds of emotional, unedited spoken wishes</p>
+            </div>
+          </div>
+
           <div class="voice-sim-box">
             <div class="mic-pulsing-wrap" id="simMicWrap">
               <button class="sim-mic-button" id="simMicBtn" aria-label="Start simulated recording">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
               </button>
             </div>
+
+            <!-- Dynamic Waveform visualizer -->
+            <div class="sim-waveform-bars" id="simWaveformBars">
+              <span style="--h: 30%"></span>
+              <span style="--h: 60%"></span>
+              <span style="--h: 90%"></span>
+              <span style="--h: 40%"></span>
+              <span style="--h: 100%"></span>
+              <span style="--h: 75%"></span>
+              <span style="--h: 50%"></span>
+              <span style="--h: 85%"></span>
+              <span style="--h: 35%"></span>
+            </div>
+
             <p class="sim-status-text" id="simVoiceStatus">Tap microphone to record voice blessing</p>
             <div class="sim-timer-display" id="simTimer">0:00</div>
           </div>
-          <div class="sim-guest-input-wrap">
-            <label for="simVoiceName" class="sim-label">Your Name &amp; Table Number</label>
-            <input type="text" id="simVoiceName" class="sim-input" placeholder="e.g. Pak Long Kamarul - Table 2" value="Pak Long Kamarul - Table 2">
+        </div>
+
+        <!-- STEP 2: PHOTO CAPTURE WITH 4 FILTERS & 5 FRAMES -->
+        <div class="sim-section-box">
+          <div class="sim-section-header">
+            <span class="sim-step-num">2</span>
+            <div>
+              <h4 class="sim-section-title">Candid Photo &bull; 4 Filters &bull; 5 Picture Frames</h4>
+              <p class="sim-section-desc">Select vintage film tones and wedding borders in real time</p>
+            </div>
+          </div>
+
+          <!-- Live Photo Frame Preview Wrapper -->
+          <div class="photo-preview-stage">
+            <div class="sim-photo-frame-container frame-none" id="simPhotoFrameContainer">
+              <img src="assets/candid_guest_moments.jpg" alt="Selected guest photo" class="sim-photo-img filter-original" id="simPhotoPreview">
+              <span class="polaroid-text-stamp" id="polaroidStamp">forever &amp; always &hearts;</span>
+              <div class="gold-corner-decor"></div>
+              <div class="hearts-doodle-decor">&hearts; &#10024; &hearts;</div>
+              <div class="ribbon-bow-decor">&#127872;</div>
+            </div>
+          </div>
+
+          <!-- 4 Photo Filters Selector matching DIGITAL-GUESTBOOK -->
+          <div class="selector-group">
+            <div class="selector-label-row">
+              <span class="selector-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                Select Photo Filter (4 Styles):
+              </span>
+              <span class="selector-sub">Tap to preview</span>
+            </div>
+
+            <div class="filters-grid">
+              <button type="button" class="filter-choice-btn active" data-filter="original">
+                <div class="filter-thumb-box">
+                  <img src="assets/candid_guest_moments.jpg" alt="Original" class="filter-thumb filter-original">
+                </div>
+                <span class="filter-name">Original</span>
+                <span class="filter-tagline">Natural</span>
+              </button>
+
+              <button type="button" class="filter-choice-btn" data-filter="champagne">
+                <div class="filter-thumb-box">
+                  <img src="assets/candid_guest_moments.jpg" alt="Champagne Warm" class="filter-thumb filter-champagne">
+                </div>
+                <span class="filter-name">Champagne</span>
+                <span class="filter-tagline">Golden Glow</span>
+              </button>
+
+              <button type="button" class="filter-choice-btn" data-filter="noir">
+                <div class="filter-thumb-box">
+                  <img src="assets/candid_guest_moments.jpg" alt="Classic Noir" class="filter-thumb filter-noir">
+                </div>
+                <span class="filter-name">Classic Noir</span>
+                <span class="filter-tagline">Timeless B&amp;W</span>
+              </button>
+
+              <button type="button" class="filter-choice-btn" data-filter="rose">
+                <div class="filter-thumb-box">
+                  <img src="assets/candid_guest_moments.jpg" alt="Blush Romance" class="filter-thumb filter-rose">
+                </div>
+                <span class="filter-name">Blush Romance</span>
+                <span class="filter-tagline">Romantic Rose</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5 Picture Frames Selector matching DIGITAL-GUESTBOOK -->
+          <div class="selector-group">
+            <div class="selector-label-row">
+              <span class="selector-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10"/></svg>
+                Select Picture Frame (5 Styles):
+              </span>
+              <span class="selector-sub">Tap to wrap photo</span>
+            </div>
+
+            <div class="frames-grid">
+              <button type="button" class="frame-choice-btn active" data-frame="none">
+                <span class="frame-icon-badge">&#9679;</span>
+                <span class="frame-name">Borderless</span>
+                <span class="frame-badge">Clean</span>
+              </button>
+
+              <button type="button" class="frame-choice-btn" data-frame="polaroid">
+                <span class="frame-icon-badge">&#128247;</span>
+                <span class="frame-name">Polaroid</span>
+                <span class="frame-badge">Vintage</span>
+              </button>
+
+              <button type="button" class="frame-choice-btn" data-frame="gold">
+                <span class="frame-icon-badge">&#10024;</span>
+                <span class="frame-name">Gold Foil</span>
+                <span class="frame-badge">Luxury</span>
+              </button>
+
+              <button type="button" class="frame-choice-btn" data-frame="hearts">
+                <span class="frame-icon-badge">&hearts;</span>
+                <span class="frame-name">Cute Hearts</span>
+                <span class="frame-badge">Playful</span>
+              </button>
+
+              <button type="button" class="frame-choice-btn" data-frame="ribbon">
+                <span class="frame-icon-badge">&#127872;</span>
+                <span class="frame-name">Blush Ribbon</span>
+                <span class="frame-badge">Romantic</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Photo Tab -->
-        <div class="modal-tab-pane" id="photoTab">
-          <div class="photo-sim-preview">
-            <img src="assets/candid_guest_moments.jpg" alt="Selected wedding photo preview" class="sim-photo-img" id="simPhotoPreview">
-            <span class="sim-photo-badge">Selfie Ready</span>
+        <!-- STEP 3: INTERACTIVE TOUCH/MOUSE SIGNATURE PAD -->
+        <div class="sim-section-box">
+          <div class="sim-section-header">
+            <span class="sim-step-num">3</span>
+            <div>
+              <h4 class="sim-section-title">Digital Signature Pad (Touch / Mouse)</h4>
+              <p class="sim-section-desc">Sign with your finger or mouse just like a real paper guestbook</p>
+            </div>
           </div>
-          <div class="sim-guest-input-wrap">
-            <label for="simPhotoCaption" class="sim-label">Add a short caption</label>
-            <input type="text" id="simPhotoCaption" class="sim-input" placeholder="e.g. Tahniah Aliff &amp; Ilya!" value="Tahniah Aliff &amp; Ilya! #AliffFoundIlya">
+
+          <div class="signature-canvas-wrap">
+            <canvas id="signatureCanvas" class="signature-pad-canvas" width="460" height="120"></canvas>
+            <div class="signature-controls">
+              <span class="signature-tip">&uarr; Draw your signature or initial in the box above</span>
+              <button type="button" class="signature-clear-btn" id="clearSignatureBtn">
+                &times; Clear Signature
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Wish Tab -->
-        <div class="modal-tab-pane" id="wishTab">
-          <div class="sim-guest-input-wrap">
-            <label for="simWishName" class="sim-label">Your Name</label>
-            <input type="text" id="simWishName" class="sim-input" placeholder="e.g. Sarah &amp; Daniel" value="Sarah &amp; Daniel">
+        <!-- STEP 4: GUEST DETAILS & WRITTEN BLESSING -->
+        <div class="sim-section-box">
+          <div class="sim-section-header">
+            <span class="sim-step-num">4</span>
+            <div>
+              <h4 class="sim-section-title">Your Name &amp; Heartfelt Blessing</h4>
+              <p class="sim-section-desc">Personalized wishes displayed on the live wall and permanently saved</p>
+            </div>
           </div>
+
           <div class="sim-guest-input-wrap">
-            <label for="simWishMessage" class="sim-label">Your Message for the Couple</label>
-            <textarea id="simWishMessage" class="sim-textarea" rows="3" placeholder="Write your heartfelt blessing here...">Selamat bertunang Aliff &amp; Ilya! May Allah bless your journey together until the big day and beyond!</textarea>
+            <label for="simGuestName" class="sim-label">Your Name &amp; Table Number</label>
+            <input type="text" id="simGuestName" class="sim-input" placeholder="e.g. Pak Long Kamarul - Table 2" value="Pak Long Kamarul - Table 2">
+          </div>
+
+          <div class="sim-guest-input-wrap">
+            <label for="simGuestMessage" class="sim-label">Your Message for Aliff &amp; Ilya</label>
+            <textarea id="simGuestMessage" class="sim-textarea" rows="3" placeholder="Write your heartfelt blessing here...">Alhamdulillah selamat bertunang Aliff &amp; Ilya! Semoga segala urusan persiapan majlis perkahwinan dipermudahkan dan diberkati Allah SWT selalu.</textarea>
           </div>
         </div>
 
       </div>
 
+      <!-- Modal Footer -->
       <div class="demo-modal-footer">
-        <button class="btn btn-secondary btn-sm" id="cancelDemoBtn">Close</button>
-        <button class="btn btn-primary btn-md" id="submitDemoEntry">
-          Send to Aliff &amp; Ilya&apos;s Guestbook
-        </button>
+        <div class="modal-footer-hint">
+          <span class="sync-dot"></span> Automatically synced to Live Wall &amp; Google Drive
+        </div>
+        <div class="modal-footer-btns">
+          <button class="btn btn-secondary btn-sm" id="cancelDemoBtn">Close</button>
+          <button class="btn btn-primary btn-md" id="submitDemoEntry">
+            <span>Send to Aliff &amp; Ilya&apos;s Guestbook</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 

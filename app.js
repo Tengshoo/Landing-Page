@@ -267,82 +267,346 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 6. Interactive Guest Simulator Modal
+  // 6. Interactive Suite Emulator & Guest Simulator (DIGITAL-GUESTBOOK)
   // --------------------------------------------------------------------------
+  
+  // A. 4-Module Navigation Tab Switching
+  const moduleTabs = document.querySelectorAll('.demo-module-tab');
+  const modulePanes = document.querySelectorAll('.demo-pane');
+
+  const switchModule = (targetModuleId) => {
+    moduleTabs.forEach(tab => {
+      const isTarget = tab.getAttribute('data-module') === targetModuleId;
+      tab.classList.toggle('active', isTarget);
+      tab.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+    });
+
+    modulePanes.forEach(pane => {
+      pane.classList.toggle('active', pane.id === targetModuleId);
+    });
+  };
+
+  moduleTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetId = tab.getAttribute('data-module');
+      if (targetId) switchModule(targetId);
+    });
+  });
+
+  // Cross-module jump links
+  document.querySelectorAll('[data-goto-module]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetModule = btn.getAttribute('data-goto-module');
+      if (targetModule) switchModule(targetModule);
+    });
+  });
+
+  // B. Bilingual Toggle on Mobile Mockup
+  const demoLangBtn = document.getElementById('demoLangBtn');
+  const demoLangText = document.getElementById('demoLangText');
+  const demoEventSubtitle = document.getElementById('demoEventSubtitle');
+  const demoDateVenue = document.getElementById('demoDateVenue');
+  const demoFieldPlaceholder = document.getElementById('demoFieldPlaceholder');
+  const demoCtaLabel = document.getElementById('demoCtaLabel');
+
+  let currentDemoLang = 'ms';
+
+  if (demoLangBtn) {
+    demoLangBtn.addEventListener('click', () => {
+      if (currentDemoLang === 'ms') {
+        currentDemoLang = 'en';
+        if (demoLangText) demoLangText.textContent = 'MS | EN';
+        if (demoEventSubtitle) demoEventSubtitle.textContent = 'ENGAGEMENT CELEBRATION';
+        if (demoDateVenue) demoDateVenue.textContent = '26 December 2026 \u2022 OneTwoKL';
+        if (demoFieldPlaceholder) demoFieldPlaceholder.textContent = 'Your name / Table (e.g. Sarah - Table 5)';
+        if (demoCtaLabel) demoCtaLabel.textContent = 'Snap Photo & Sign Guestbook';
+      } else {
+        currentDemoLang = 'ms';
+        if (demoLangText) demoLangText.textContent = 'EN | MS';
+        if (demoEventSubtitle) demoEventSubtitle.textContent = 'MAJLIS PERTUNANGAN';
+        if (demoDateVenue) demoDateVenue.textContent = '26 Disember 2026 \u2022 OneTwoKL';
+        if (demoFieldPlaceholder) demoFieldPlaceholder.textContent = 'Your name / Table (e.g. Pak Long - Table 2)';
+        if (demoCtaLabel) demoCtaLabel.textContent = 'Snap Photo & Sign Guestbook';
+      }
+    });
+  }
+
+  // C. Photobooth Studio Simulator (/photobooth)
+  const pbCameraFeed = document.getElementById('pbCameraFeed');
+  const pbCountdownOverlay = document.getElementById('pbCountdownOverlay');
+  const pbCountdownNum = document.getElementById('pbCountdownNum');
+  const pbFlashOverlay = document.getElementById('pbFlashOverlay');
+  const pbShootBtn = document.getElementById('pbShootBtn');
+  const pbDownloadBtn = document.getElementById('pbDownloadBtn');
+  const pbAttachBtn = document.getElementById('pbAttachBtn');
+  const pbFilterBtns = document.querySelectorAll('[data-pb-filter]');
+  const pbSlotImgs = document.querySelectorAll('.pb-slot-img');
+
+  let isPbShooting = false;
+
+  // Filter selection in photobooth
+  pbFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      pbFilterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filterVal = btn.getAttribute('data-pb-filter');
+      if (pbCameraFeed) pbCameraFeed.style.filter = filterVal === 'none' ? 'none' : filterVal;
+      pbSlotImgs.forEach(img => {
+        img.style.filter = filterVal === 'none' ? 'none' : filterVal;
+      });
+    });
+  });
+
+  // Shoot 3-cut sequence with countdown & flash
+  if (pbShootBtn) {
+    pbShootBtn.addEventListener('click', () => {
+      if (isPbShooting) return;
+      isPbShooting = true;
+      pbShootBtn.disabled = true;
+
+      let count = 3;
+      if (pbCountdownOverlay) pbCountdownOverlay.classList.add('show');
+      if (pbCountdownNum) pbCountdownNum.textContent = count;
+
+      const countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          if (pbCountdownNum) pbCountdownNum.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          if (pbCountdownOverlay) pbCountdownOverlay.classList.remove('show');
+
+          // Camera Flash
+          if (pbFlashOverlay) {
+            pbFlashOverlay.classList.add('flash');
+            setTimeout(() => pbFlashOverlay.classList.remove('flash'), 180);
+          }
+          playCelebratoryChime();
+
+          // Confetti burst
+          if (typeof confetti === 'function') {
+            confetti({
+              particleCount: 50,
+              spread: 60,
+              origin: { y: 0.6 }
+            });
+          }
+
+          if (toastTitle) toastTitle.textContent = '3-Cut photobooth strip captured!';
+          if (audioToast) {
+            audioToast.classList.add('show');
+            setTimeout(() => audioToast.classList.remove('show'), 3000);
+          }
+
+          isPbShooting = false;
+          pbShootBtn.disabled = false;
+        }
+      }, 800);
+    });
+  }
+
+  // Download Strip button simulation
+  if (pbDownloadBtn) {
+    pbDownloadBtn.addEventListener('click', () => {
+      if (toastTitle) toastTitle.textContent = 'Photobooth strip saved to device!';
+      if (audioToast) {
+        audioToast.classList.add('show');
+        setTimeout(() => audioToast.classList.remove('show'), 3000);
+      }
+    });
+  }
+
+  // D. Live Ballroom Projector Wall Carousel (/wall)
+  const wallGuestName = document.getElementById('wallGuestName');
+  const wallGuestMeta = document.getElementById('wallGuestMeta');
+  const wallWishText = document.getElementById('wallWishText');
+  const wallPhoto = document.getElementById('wallPhoto');
+  const wallSignatureBox = document.getElementById('wallSignatureBox');
+  const wallCycleBar = document.getElementById('wallCycleBar');
+  const wallPrevBtn = document.getElementById('wallPrevBtn');
+  const wallNextBtn = document.getElementById('wallNextBtn');
+  const wallPlayPauseBtn = document.getElementById('wallPlayPauseBtn');
+  const wallPlayAudioBtn = document.getElementById('wallPlayAudioBtn');
+
+  const wallEntries = [
+    {
+      name: 'Sarah & Daniel',
+      meta: 'Table 5 \u2022 Solemnization Guest',
+      wish: 'Selamat bertunang Aliff & Ilya! Wishing both of you endless love, patience, and barakah on your beautiful journey to the big wedding day!',
+      photo: 'assets/candid_guest_moments.jpg',
+      sig: 'Sarah & Daniel'
+    },
+    {
+      name: 'Pak Long Kamarul',
+      meta: 'Table 2 \u2022 Family Elder',
+      wish: 'Alhamdulillah selamat bertunang Aliff & Ilya. Pak Long doakan dipermudahkan segala urusan persiapan majlis perkahwinan nanti. Terus berbahagia selalu!',
+      photo: 'assets/aliff-ilya-welcome.jpg',
+      sig: 'Pak Long Kamarul'
+    },
+    {
+      name: 'Amir & Nadia',
+      meta: 'Table 8 \u2022 University Friends',
+      wish: 'Cantik sangat majlis pertunangan harini! Tahniah korang berdua, dari zaman belajar sampai sekarang. We are so proud of you both! #AliffFoundIlya',
+      photo: 'assets/honeymoon_keepsake.jpg',
+      sig: 'Amir & Nadia'
+    }
+  ];
+
+  let currentWallIndex = 0;
+  let isWallPlaying = true;
+  let wallProgress = 0;
+  let wallTimer = null;
+
+  const renderWallSlide = (index) => {
+    const entry = wallEntries[index];
+    if (!entry) return;
+
+    if (wallGuestName) wallGuestName.textContent = entry.name;
+    if (wallGuestMeta) wallGuestMeta.textContent = entry.meta;
+    if (wallWishText) wallWishText.textContent = `\u201C${entry.wish}\u201D`;
+    if (wallPhoto) wallPhoto.src = entry.photo;
+    if (wallSignatureBox) {
+      wallSignatureBox.innerHTML = `<span class="simulated-handwriting">${entry.sig}</span>`;
+    }
+  };
+
+  const startWallTimer = () => {
+    clearInterval(wallTimer);
+    wallProgress = 0;
+
+    wallTimer = setInterval(() => {
+      if (!isWallPlaying) return;
+      wallProgress += (100 / (7000 / 100)); // 7 seconds total
+      if (wallCycleBar) wallCycleBar.style.width = `${Math.min(wallProgress, 100)}%`;
+
+      if (wallProgress >= 100) {
+        wallProgress = 0;
+        currentWallIndex = (currentWallIndex + 1) % wallEntries.length;
+        renderWallSlide(currentWallIndex);
+      }
+    }, 100);
+  };
+
+  if (wallPrevBtn) {
+    wallPrevBtn.addEventListener('click', () => {
+      currentWallIndex = (currentWallIndex - 1 + wallEntries.length) % wallEntries.length;
+      renderWallSlide(currentWallIndex);
+      wallProgress = 0;
+    });
+  }
+
+  if (wallNextBtn) {
+    wallNextBtn.addEventListener('click', () => {
+      currentWallIndex = (currentWallIndex + 1) % wallEntries.length;
+      renderWallSlide(currentWallIndex);
+      wallProgress = 0;
+    });
+  }
+
+  if (wallPlayPauseBtn) {
+    wallPlayPauseBtn.addEventListener('click', () => {
+      isWallPlaying = !isWallPlaying;
+      wallPlayPauseBtn.textContent = isWallPlaying ? 'Pause 7s Auto-Play' : 'Resume 7s Auto-Play';
+    });
+  }
+
+  if (wallPlayAudioBtn) {
+    wallPlayAudioBtn.addEventListener('click', () => {
+      playAmbientHarpChord();
+      if (toastTitle) toastTitle.textContent = 'Voice blessing playing on Live Wall';
+      if (audioToast) {
+        audioToast.classList.add('show');
+        setTimeout(() => audioToast.classList.remove('show'), 3500);
+      }
+    });
+  }
+
+  startWallTimer();
+
+  // E. Interactive Guestbook Submission Drawer (#demoModal)
   const demoModal = document.getElementById('demoModal');
   const modalBackdrop = document.getElementById('modalBackdrop');
   const openDemoBtn = document.getElementById('openDemoBtn');
   const triggerDemoModal = document.getElementById('triggerDemoModal');
+  const openPhoneSimulatorBtn = document.getElementById('openPhoneSimulatorBtn');
   const closeDemoBtn = document.getElementById('closeDemoBtn');
   const cancelDemoBtn = document.getElementById('cancelDemoBtn');
-
-  const modalTabBtns = document.querySelectorAll('.modal-tab-btn');
-  const modalTabPanes = document.querySelectorAll('.modal-tab-pane');
+  const submitDemoEntry = document.getElementById('submitDemoEntry');
+  const phoneFeedScroll = document.getElementById('phoneFeedScroll');
 
   const simMicBtn = document.getElementById('simMicBtn');
   const simVoiceStatus = document.getElementById('simVoiceStatus');
   const simTimer = document.getElementById('simTimer');
-  const submitDemoEntry = document.getElementById('submitDemoEntry');
-  const phoneFeedScroll = document.getElementById('phoneFeedScroll');
+  const simWaveformBars = document.getElementById('simWaveformBars');
+
+  const simPhotoPreview = document.getElementById('simPhotoPreview');
+  const simPhotoFrameContainer = document.getElementById('simPhotoFrameContainer');
+  const filterChoiceBtns = document.querySelectorAll('.filter-choice-btn');
+  const frameChoiceBtns = document.querySelectorAll('.frame-choice-btn');
+
+  const signatureCanvas = document.getElementById('signatureCanvas');
+  const clearSignatureBtn = document.getElementById('clearSignatureBtn');
 
   let isSimRecording = false;
   let simSeconds = 0;
   let simInterval = null;
+  let selectedFilter = 'original';
+  let selectedFrame = 'none';
 
+  // Modal Open & Close Handlers
   const openModal = () => {
+    if (!demoModal) return;
     demoModal.classList.add('open');
     demoModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    resizeSignatureCanvas();
   };
 
   const closeModal = () => {
+    if (!demoModal) return;
     demoModal.classList.remove('open');
     demoModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    if (isSimRecording) {
-      stopSimRecording();
-    }
+    if (isSimRecording) stopSimRecording();
   };
 
   if (openDemoBtn) openDemoBtn.addEventListener('click', openModal);
   if (triggerDemoModal) triggerDemoModal.addEventListener('click', openModal);
+  if (openPhoneSimulatorBtn) openPhoneSimulatorBtn.addEventListener('click', openModal);
+  if (pbAttachBtn) pbAttachBtn.addEventListener('click', openModal);
   if (closeDemoBtn) closeDemoBtn.addEventListener('click', closeModal);
   if (cancelDemoBtn) cancelDemoBtn.addEventListener('click', closeModal);
   if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
-  // Tab switching
-  modalTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modalTabBtns.forEach(b => b.classList.remove('active'));
-      modalTabPanes.forEach(p => p.classList.remove('active'));
-
-      btn.classList.add('active');
-      const targetId = btn.getAttribute('data-tab');
-      const targetPane = document.getElementById(targetId);
-      if (targetPane) targetPane.classList.add('active');
-    });
+  // Close on Escape key press
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && demoModal && demoModal.classList.contains('open')) {
+      closeModal();
+    }
   });
 
   // Voice recording simulation
   const startSimRecording = () => {
     isSimRecording = true;
     simSeconds = 0;
-    simMicBtn.classList.add('recording');
-    simVoiceStatus.textContent = 'Recording in progress... speak now';
-    simTimer.textContent = '0:00';
-    
+    if (simMicBtn) simMicBtn.classList.add('recording');
+    if (simWaveformBars) simWaveformBars.classList.add('active');
+    if (simVoiceStatus) simVoiceStatus.textContent = 'Recording in progress... speak your wishes';
+    if (simTimer) simTimer.textContent = '0:00';
+
     clearInterval(simInterval);
     simInterval = setInterval(() => {
       simSeconds++;
-      simTimer.textContent = formatTime(simSeconds);
+      if (simTimer) simTimer.textContent = formatTime(simSeconds);
     }, 1000);
   };
 
   const stopSimRecording = () => {
     isSimRecording = false;
-    simMicBtn.classList.remove('recording');
+    if (simMicBtn) simMicBtn.classList.remove('recording');
+    if (simWaveformBars) simWaveformBars.classList.remove('active');
     clearInterval(simInterval);
-    simVoiceStatus.textContent = 'Recording complete (ready to submit)';
+    if (simVoiceStatus) simVoiceStatus.textContent = 'Voice blessing recorded (0:12) - ready to submit';
   };
 
   if (simMicBtn) {
@@ -355,86 +619,171 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Submit entry: Add card into phone feed dynamically!
+  // 4 Photo Filters switching
+  filterChoiceBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterChoiceBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedFilter = btn.getAttribute('data-filter') || 'original';
+
+      if (simPhotoPreview) {
+        simPhotoPreview.className = `sim-photo-img filter-${selectedFilter}`;
+      }
+    });
+  });
+
+  // 5 Photo Frames switching
+  frameChoiceBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      frameChoiceBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedFrame = btn.getAttribute('data-frame') || 'none';
+
+      if (simPhotoFrameContainer) {
+        simPhotoFrameContainer.className = `sim-photo-frame-container frame-${selectedFrame}`;
+      }
+    });
+  });
+
+  // HTML5 Touch & Mouse Signature Canvas
+  let isDrawing = false;
+  let hasDrawnSignature = false;
+  let sigCtx = null;
+
+  const resizeSignatureCanvas = () => {
+    if (!signatureCanvas) return;
+    const rect = signatureCanvas.getBoundingClientRect();
+    if (rect.width > 0) {
+      signatureCanvas.width = rect.width;
+      signatureCanvas.height = rect.height || 110;
+      sigCtx = signatureCanvas.getContext('2d');
+      if (sigCtx) {
+        sigCtx.strokeStyle = '#1C1917';
+        sigCtx.lineWidth = 2.5;
+        sigCtx.lineCap = 'round';
+        sigCtx.lineJoin = 'round';
+      }
+    }
+  };
+
+  const getCanvasPos = (e) => {
+    if (!signatureCanvas) return { x: 0, y: 0 };
+    const rect = signatureCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top
+    };
+  };
+
+  if (signatureCanvas) {
+    const startDraw = (e) => {
+      isDrawing = true;
+      hasDrawnSignature = true;
+      const pos = getCanvasPos(e);
+      if (sigCtx) {
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+      }
+      e.preventDefault();
+    };
+
+    const moveDraw = (e) => {
+      if (!isDrawing || !sigCtx) return;
+      const pos = getCanvasPos(e);
+      sigCtx.lineTo(pos.x, pos.y);
+      sigCtx.stroke();
+      e.preventDefault();
+    };
+
+    const endDraw = () => {
+      isDrawing = false;
+    };
+
+    signatureCanvas.addEventListener('mousedown', startDraw);
+    signatureCanvas.addEventListener('mousemove', moveDraw);
+    signatureCanvas.addEventListener('mouseup', endDraw);
+    signatureCanvas.addEventListener('mouseleave', endDraw);
+
+    signatureCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    signatureCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+    signatureCanvas.addEventListener('touchend', endDraw);
+  }
+
+  if (clearSignatureBtn && signatureCanvas) {
+    clearSignatureBtn.addEventListener('click', () => {
+      if (sigCtx) {
+        sigCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+      }
+      hasDrawnSignature = false;
+    });
+  }
+
+  // Submit Entry with Confetti Explosion & Realtime Sync
   if (submitDemoEntry) {
     submitDemoEntry.addEventListener('click', () => {
       playCelebratoryChime();
 
-      // Find active tab
-      const activeTab = document.querySelector('.modal-tab-btn.active').getAttribute('data-tab');
-      let newCardHTML = '';
+      // Trigger multi-stage confetti burst matching DIGITAL-GUESTBOOK
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#D4AF37', '#E11D48', '#FAF8F5', '#C5A059']
+        });
 
-      if (activeTab === 'voiceTab') {
-        const guestName = document.getElementById('simVoiceName').value || 'Guest';
-        newCardHTML = `
-          <article class="feed-card audio-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
-            <div class="feed-card-header">
-              <div class="guest-avatar-letter">${guestName.charAt(0).toUpperCase()}</div>
-              <div class="guest-details">
-                <span class="guest-name">${guestName}</span>
-                <span class="feed-time">Just now</span>
-              </div>
-              <span class="media-type-tag">Voice Note</span>
-            </div>
-            <div class="audio-player-widget">
-              <button class="audio-play-button playing" aria-label="Play recording">
-                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-                <svg class="pause-icon" style="display:block;" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-              </button>
-              <div class="audio-waveform-container">
-                <div class="waveform-bars">
-                  <span style="--h: 60%"></span>
-                  <span style="--h: 90%"></span>
-                  <span style="--h: 40%"></span>
-                  <span style="--h: 100%"></span>
-                  <span style="--h: 75%"></span>
-                  <span style="--h: 55%"></span>
-                </div>
-                <div class="audio-timer"><span>0:12</span> / <span>0:12</span></div>
-              </div>
-            </div>
-            <p class="voice-transcription-preview">
-              &ldquo;Huge congratulations to Aliff &amp; Ilya! Wishing you both an endless journey of love and joy!&rdquo;
-            </p>
-          </article>
-        `;
-      } else if (activeTab === 'photoTab') {
-        const caption = document.getElementById('simPhotoCaption').value || 'Tahniah Aliff & Ilya!';
-        newCardHTML = `
-          <article class="feed-card photo-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
-            <div class="feed-card-header">
-              <div class="guest-avatar-letter">Y</div>
-              <div class="guest-details">
-                <span class="guest-name">You (Demo Guest)</span>
-                <span class="feed-time">Just now</span>
-              </div>
-              <span class="media-type-tag">Candid Photo</span>
-            </div>
-            <div class="feed-photo-frame">
-              <img src="assets/candid_guest_moments.jpg" alt="Uploaded guest photo" class="feed-img">
-            </div>
-            <p class="feed-caption">&ldquo;${caption}&rdquo;</p>
-          </article>
-        `;
-      } else {
-        const wishName = document.getElementById('simWishName').value || 'A Friend';
-        const wishMsg = document.getElementById('simWishMessage').value || 'Warmest congratulations on your engagement, Aliff & Ilya!';
-        newCardHTML = `
-          <article class="feed-card wish-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
-            <div class="feed-card-header">
-              <div class="guest-avatar-letter">${wishName.charAt(0).toUpperCase()}</div>
-              <div class="guest-details">
-                <span class="guest-name">${wishName}</span>
-                <span class="feed-time">Just now</span>
-              </div>
-              <span class="media-type-tag">Written Wish</span>
-            </div>
-            <p class="wish-text">&ldquo;${wishMsg}&rdquo;</p>
-          </article>
-        `;
+        setTimeout(() => {
+          confetti({
+            particleCount: 60,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+          });
+          confetti({
+            particleCount: 60,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+          });
+        }, 250);
       }
 
+      const guestNameInput = document.getElementById('simGuestName');
+      const guestMessageInput = document.getElementById('simGuestMessage');
+      const guestName = (guestNameInput && guestNameInput.value.trim()) || 'Pak Long Kamarul - Table 2';
+      const guestMsg = (guestMessageInput && guestMessageInput.value.trim()) || 'Tahniah Aliff & Ilya! Semoga berkekalan ke anak cucu!';
+
+      // Add to Live Wall carousel
+      wallEntries.unshift({
+        name: guestName,
+        meta: 'Tabletop QR Upload \u2022 Just now',
+        wish: guestMsg,
+        photo: 'assets/candid_guest_moments.jpg',
+        sig: guestName.split('-')[0].trim()
+      });
+      currentWallIndex = 0;
+      renderWallSlide(0);
+
       // Prepend to phone feed
+      const newCardHTML = `
+        <article class="feed-card photo-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
+          <div class="feed-card-header">
+            <div class="guest-avatar-letter">${guestName.charAt(0).toUpperCase()}</div>
+            <div class="guest-details">
+              <span class="guest-name">${guestName}</span>
+              <span class="feed-time">Just now</span>
+            </div>
+            <span class="media-type-tag">Voice &amp; Photo</span>
+          </div>
+          <div class="feed-photo-frame ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}">
+            <img src="assets/candid_guest_moments.jpg" alt="Uploaded guest photo" class="feed-img filter-${selectedFilter}">
+          </div>
+          <p class="feed-caption">&ldquo;${guestMsg}&rdquo;</p>
+        </article>
+      `;
+
       if (phoneFeedScroll) {
         phoneFeedScroll.insertAdjacentHTML('afterbegin', newCardHTML);
         phoneFeedScroll.scrollTop = 0;
@@ -442,13 +791,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       closeModal();
 
-      // Show confirmation toast
-      if (toastTitle) toastTitle.textContent = 'Blessing added to live guestbook!';
+      // Confirmation Toast
+      if (toastTitle) toastTitle.textContent = 'Uploaded to Live Wall & Google Drive!';
       if (audioToast) {
         audioToast.classList.add('show');
-        setTimeout(() => {
-          audioToast.classList.remove('show');
-        }, 4000);
+        setTimeout(() => audioToast.classList.remove('show'), 4000);
       }
     });
   }
