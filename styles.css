@@ -74,6 +74,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 body {
@@ -82,7 +85,14 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
   position: relative;
+}
+
+section {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 /* Eliminate tap grey flash & 300ms delay on iOS and Android */
@@ -1010,9 +1020,11 @@ button {
 /* Module Navigation Tabs */
 .demo-module-tabs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 32px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .demo-module-tab {
@@ -1029,6 +1041,8 @@ button {
   box-shadow: var(--shadow-subtle);
   position: relative;
   text-align: left;
+  min-width: 0;
+  width: 100%;
 }
 
 .demo-module-tab:hover {
@@ -1050,6 +1064,11 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--gold-primary);
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .demo-module-tab.active .tab-module-badge {
@@ -1060,10 +1079,11 @@ button {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-charcoal);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.3;
+  word-break: break-word;
   width: 100%;
+  min-width: 0;
 }
 
 .demo-module-tab.active .tab-module-title {
@@ -4100,8 +4120,25 @@ button {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --container-padding: 16px;
+  }
+
+  .site-header {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .demo-module-tabs {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .demo-module-tab {
+    min-width: 0;
+    width: 100%;
   }
 
   .demo-pane-grid {
@@ -4434,29 +4471,46 @@ button {
 
   /* Section 4 Test Drive Module Tabs */
   .demo-module-tabs {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .demo-module-tab {
-    padding: 10px 12px;
+    padding: 8px 8px;
     border-radius: var(--radius-sm);
+    min-width: 0;
+    width: 100%;
   }
 
   .tab-module-badge {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .tab-module-title {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    min-width: 0;
+    width: 100%;
   }
 
   /* Phone Mockup Screen scaling */
   .demo-smartphone-shell {
-    max-width: 100%;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
     border-radius: 36px;
     padding: 8px;
     border-width: 3px;
+    box-sizing: border-box;
   }
 
   .demo-phone-screen {
@@ -4619,5 +4673,11 @@ button {
 
   .demo-module-tabs {
     grid-template-columns: 1fr;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .demo-smartphone-shell {
+    max-width: 100%;
   }
 }

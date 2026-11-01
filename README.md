@@ -26,9 +26,9 @@ Built with warm tactile luxury wedding editorial aesthetics (Cormorant Garamond 
 
 The live interactive demo showcase on this landing page connects directly to the customer configuration of [Tengshoo/demo-guestbook](https://github.com/Tengshoo/demo-guestbook):
 
-- **Event:** Arman & Farah's Wedding Celebration (Majlis Perkahwinan)
+- **Event:** Aliff & Ilya's Wedding Celebration (Majlis Perkahwinan)
 - **Date & Venue:** Saturday, 28 November 2026 (28.11.2026) at Glasshouse at Seputeh, Kuala Lumpur
-- **Hashtag:** #ArmanFarahForever
+- **Hashtag:** #AliffIlyaForever
 - **Live Guestbook Web App:** [https://demo.memoira.art/](https://demo.memoira.art/)
 - **Live Projector Wall:** [https://demo.memoira.art/wall/](https://demo.memoira.art/wall/)
 - **Photobooth Studio:** [https://demo.memoira.art/photobooth/](https://demo.memoira.art/photobooth/)
