@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             ${isApproved ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>'}
           </svg>
-          ${isApproved ? 'Approved &amp; Verified' : 'Pending Host Review (PIN 1234)'}
+          ${isApproved ? 'Approved &amp; Verified' : 'Pending Host Review'}
         </span>
       `;
     }
