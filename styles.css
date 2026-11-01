@@ -256,30 +256,44 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   1. Announcement Bar
+   1. Announcement Bar (Auto-Scrolling Marquee)
    -------------------------------------------------------------------------- */
 .announcement-bar {
   background: var(--text-charcoal);
   color: #FAF8F5;
   font-size: 0.8125rem;
-  padding: 8px var(--container-padding);
+  padding: 8px 0;
   padding-top: max(8px, env(safe-area-inset-top));
-  padding-left: max(var(--container-padding), env(safe-area-inset-left));
-  padding-right: max(var(--container-padding), env(safe-area-inset-right));
   position: relative;
   z-index: 100;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.announcement-content {
-  max-width: var(--container-max);
-  margin: 0 auto;
+.announcement-track {
+  display: flex;
+  width: max-content;
+  animation: announcement-marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.announcement-bar:hover .announcement-track {
+  animation-play-state: paused;
+}
+
+.announcement-group {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+}
+
+.announcement-item {
+  display: inline-flex;
+  align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  text-align: center;
+  padding: 0 16px;
+  flex-shrink: 0;
 }
 
 .announcement-badge {
@@ -291,10 +305,13 @@ button {
   border-radius: var(--radius-pill);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  flex-shrink: 0;
 }
 
 .announcement-text {
   color: rgba(250, 248, 245, 0.92);
+  margin: 0;
+  white-space: nowrap;
 }
 
 .announcement-link {
@@ -302,10 +319,42 @@ button {
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
 }
 
 .announcement-link:hover {
   color: #FFFFFF;
+}
+
+.announcement-sep {
+  color: var(--gold-primary);
+  opacity: 0.75;
+  font-size: 0.75rem;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@keyframes announcement-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+  .announcement-group[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
