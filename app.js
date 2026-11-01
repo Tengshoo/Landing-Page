@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (audioToggleBtn) audioToggleBtn.classList.add('playing');
     playAmbientHarpChord();
 
-    if (toastTitle) toastTitle.textContent = 'Auntie Mei Ling - Table 6';
+    if (toastTitle) toastTitle.textContent = 'Pak Long Kamarul - Table 2';
     if (audioToast) audioToast.classList.add('show');
 
     clearInterval(heroTimerInterval);
@@ -394,12 +394,12 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
             <p class="voice-transcription-preview">
-              &ldquo;Huge congratulations to Sarah and Ryan! Wishing you both an endless journey of love and joy!&rdquo;
+              &ldquo;Huge congratulations to Atif &amp; Isma! Wishing you both an endless journey of love and joy!&rdquo;
             </p>
           </article>
         `;
       } else if (activeTab === 'photoTab') {
-        const caption = document.getElementById('simPhotoCaption').value || 'Cheers to the couple!';
+        const caption = document.getElementById('simPhotoCaption').value || 'Tahniah Atif & Isma!';
         newCardHTML = `
           <article class="feed-card photo-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
             <div class="feed-card-header">
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       } else {
         const wishName = document.getElementById('simWishName').value || 'A Friend';
-        const wishMsg = document.getElementById('simWishMessage').value || 'Warmest congratulations on your marriage!';
+        const wishMsg = document.getElementById('simWishMessage').value || 'Warmest congratulations on your engagement, Atif & Isma!';
         newCardHTML = `
           <article class="feed-card wish-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
             <div class="feed-card-header">
