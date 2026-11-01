@@ -159,6 +159,8 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
   font-weight: 600;
   border-radius: var(--radius-pill);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3284,6 +3286,43 @@ button {
 
 .pricing-card-action {
   margin-top: auto;
+  padding-top: 14px;
+}
+
+.pricing-card-action .btn {
+  padding: 16px 28px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  min-height: 54px;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(28, 25, 23, 0.08);
+}
+
+.pricing-card-action .btn-outline {
+  border: 1.5px solid rgba(28, 25, 23, 0.35);
+  color: var(--text-charcoal);
+  background: #FFFFFF;
+}
+
+.pricing-card-action .btn-outline:hover {
+  background: var(--text-charcoal);
+  color: #FFFFFF;
+  border-color: var(--text-charcoal);
+  box-shadow: 0 6px 20px rgba(28, 25, 23, 0.16);
+  transform: translateY(-2px);
+}
+
+.popular-plan .pricing-card-action .btn {
+  padding: 18px 32px;
+  font-size: 1.1rem;
+  min-height: 58px;
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.22);
+}
+
+.popular-plan .pricing-card-action .btn:hover {
+  box-shadow: 0 12px 30px rgba(200, 149, 75, 0.35);
+  transform: translateY(-2px);
 }
 
 .guarantee-badge-row {
