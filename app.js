@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const wallGuestMeta = document.getElementById('wallGuestMeta');
   const wallWishText = document.getElementById('wallWishText');
   const wallPhoto = document.getElementById('wallPhoto');
-  const wallSignatureBox = document.getElementById('wallSignatureBox');
+  const wallModerationBox = document.getElementById('wallModerationBox');
   const wallCycleBar = document.getElementById('wallCycleBar');
   const wallPrevBtn = document.getElementById('wallPrevBtn');
   const wallNextBtn = document.getElementById('wallNextBtn');
@@ -447,21 +447,21 @@ document.addEventListener('DOMContentLoaded', () => {
       meta: 'Table 5 \u2022 Solemnization Guest',
       wish: 'Selamat pengantin baru Aliff & Ilya! Wishing both of you endless love, patience, and barakah on your beautiful journey together!',
       photo: 'assets/candid_guest_moments.jpg',
-      sig: 'Sarah & Daniel'
+      isApproved: true
     },
     {
       name: 'Pak Long Kamarul',
       meta: 'Table 2 \u2022 Family Elder',
       wish: 'Alhamdulillah selamat pengantin baru Aliff & Ilya. Pak Long doakan dipermudahkan segala urusan dan diberkati Allah SWT selalu. Terus berbahagia ke anak cucu!',
       photo: 'assets/aliff-ilya-welcome.jpg',
-      sig: 'Pak Long Kamarul'
+      isApproved: true
     },
     {
       name: 'Amir & Nadia',
       meta: 'Table 8 \u2022 University Friends',
       wish: 'Cantik sangat majlis perkahwinan harini! Tahniah korang berdua, dari zaman belajar sampai sekarang. We are so proud of you both! #AliffIlyaForever',
       photo: 'assets/honeymoon_keepsake.jpg',
-      sig: 'Amir & Nadia'
+      isApproved: true
     }
   ];
 
@@ -478,8 +478,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wallGuestMeta) wallGuestMeta.textContent = entry.meta;
     if (wallWishText) wallWishText.textContent = `\u201C${entry.wish}\u201D`;
     if (wallPhoto) wallPhoto.src = entry.photo;
-    if (wallSignatureBox) {
-      wallSignatureBox.innerHTML = `<span class="simulated-handwriting">${entry.sig}</span>`;
+    if (wallModerationBox) {
+      const isApproved = entry.isApproved !== false;
+      wallModerationBox.innerHTML = `
+        <span class="moderation-pill ${isApproved ? 'approved' : 'pending'}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            ${isApproved ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>'}
+          </svg>
+          ${isApproved ? 'Approved &amp; Verified' : 'Pending Host Review (PIN 1234)'}
+        </span>
+      `;
     }
   };
 
@@ -557,9 +565,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterChoiceBtns = document.querySelectorAll('.filter-choice-btn');
   const frameChoiceBtns = document.querySelectorAll('.frame-choice-btn');
 
-  const signatureCanvas = document.getElementById('signatureCanvas');
-  const clearSignatureBtn = document.getElementById('clearSignatureBtn');
-
   let isSimRecording = false;
   let simSeconds = 0;
   let simInterval = null;
@@ -573,7 +578,6 @@ document.addEventListener('DOMContentLoaded', () => {
     demoModal.setAttribute('aria-hidden', 'false');
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    setTimeout(resizeSignatureCanvas, 60);
   };
 
   const closeModal = () => {
@@ -660,95 +664,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // HTML5 Touch & Mouse Signature Canvas with Retina / High-DPI Support
-  let isDrawing = false;
-  let hasDrawnSignature = false;
-  let sigCtx = null;
-
-  const resizeSignatureCanvas = () => {
-    if (!signatureCanvas) return;
-    const rect = signatureCanvas.getBoundingClientRect();
-    if (rect.width > 0) {
-      const dpr = window.devicePixelRatio || 1;
-      signatureCanvas.width = Math.floor(rect.width * dpr);
-      signatureCanvas.height = Math.floor((rect.height || 110) * dpr);
-      sigCtx = signatureCanvas.getContext('2d');
-      if (sigCtx) {
-        sigCtx.scale(dpr, dpr);
-        sigCtx.strokeStyle = '#1C1917';
-        sigCtx.lineWidth = 2.5;
-        sigCtx.lineCap = 'round';
-        sigCtx.lineJoin = 'round';
-      }
-    }
-  };
-
-  // Recalculate canvas on orientation change or window resize
-  window.addEventListener('resize', () => {
-    if (demoModal && demoModal.classList.contains('open')) {
-      resizeSignatureCanvas();
-    }
-  }, { passive: true });
-
-  const getCanvasPos = (e) => {
-    if (!signatureCanvas) return { x: 0, y: 0 };
-    const rect = signatureCanvas.getBoundingClientRect();
-    const touch = e.touches && e.touches.length > 0
-      ? e.touches[0]
-      : (e.changedTouches && e.changedTouches.length > 0 ? e.changedTouches[0] : e);
-    const clientX = touch.clientX;
-    const clientY = touch.clientY;
-    return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
-    };
-  };
-
-  if (signatureCanvas) {
-    const startDraw = (e) => {
-      isDrawing = true;
-      hasDrawnSignature = true;
-      const pos = getCanvasPos(e);
-      if (sigCtx) {
-        sigCtx.beginPath();
-        sigCtx.moveTo(pos.x, pos.y);
-      }
-      if (e.cancelable) e.preventDefault();
-    };
-
-    const moveDraw = (e) => {
-      if (!isDrawing || !sigCtx) return;
-      const pos = getCanvasPos(e);
-      sigCtx.lineTo(pos.x, pos.y);
-      sigCtx.stroke();
-      if (e.cancelable) e.preventDefault();
-    };
-
-    const endDraw = () => {
-      isDrawing = false;
-    };
-
-    signatureCanvas.addEventListener('mousedown', startDraw);
-    signatureCanvas.addEventListener('mousemove', moveDraw);
-    signatureCanvas.addEventListener('mouseup', endDraw);
-    signatureCanvas.addEventListener('mouseleave', endDraw);
-
-    // iOS and Android touch events
-    signatureCanvas.addEventListener('touchstart', startDraw, { passive: false });
-    signatureCanvas.addEventListener('touchmove', moveDraw, { passive: false });
-    signatureCanvas.addEventListener('touchend', endDraw, { passive: false });
-    signatureCanvas.addEventListener('touchcancel', endDraw, { passive: true });
-  }
-
-  if (clearSignatureBtn && signatureCanvas) {
-    clearSignatureBtn.addEventListener('click', () => {
-      if (sigCtx) {
-        const dpr = window.devicePixelRatio || 1;
-        sigCtx.clearRect(0, 0, signatureCanvas.width / dpr, signatureCanvas.height / dpr);
-      }
-      hasDrawnSignature = false;
+  // STEP 3: Interactive Host Admin Moderation Radio Cards
+  const moderationCards = document.querySelectorAll('.moderation-card');
+  moderationCards.forEach(card => {
+    card.addEventListener('click', () => {
+      moderationCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      const radio = card.querySelector('.moderation-radio');
+      if (radio) radio.checked = true;
     });
-  }
+  });
 
   // Submit Entry with Confetti Explosion & Realtime Sync
   if (submitDemoEntry) {
@@ -785,13 +710,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const guestName = (guestNameInput && guestNameInput.value.trim()) || 'Pak Long Kamarul - Table 2';
       const guestMsg = (guestMessageInput && guestMessageInput.value.trim()) || 'Tahniah Aliff & Ilya! Semoga berkekalan ke anak cucu!';
 
+      const selectedRadio = document.querySelector('input[name="moderationMode"]:checked');
+      const isDirectApproved = !selectedRadio || selectedRadio.value === 'auto-approve';
+
       // Add to Live Wall carousel
       wallEntries.unshift({
         name: guestName,
         meta: 'Tabletop QR Upload \u2022 Just now',
         wish: guestMsg,
         photo: 'assets/candid_guest_moments.jpg',
-        sig: guestName.split('-')[0].trim()
+        isApproved: isDirectApproved
       });
       currentWallIndex = 0;
       renderWallSlide(0);

@@ -29,7 +29,7 @@
   <!-- Canvas Confetti for Celebration Effects (matching demo-guestbook) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <link rel="stylesheet" href="styles.css?v=20261101_05">
+  <link rel="stylesheet" href="styles.css?v=20261101_06">
 </head>
 
 <body>
@@ -503,8 +503,7 @@
                     <div class="demo-check-item">
                       <span class="demo-check-icon">&#10003;</span>
                       <div>
-                        <strong>Digital Handwriting Signature:</strong> Finger-touch signature pad replaces the physical
-                        paper guestbook.
+                        <strong>Host Admin Moderation (PIN 1234):</strong> Real-time approval dashboard to review, approve, or hide photos &amp; wishes before live ballroom projection.
                       </div>
                     </div>
                     <div class="demo-check-item">
@@ -700,11 +699,16 @@
                         <span class="wall-audio-time">0:14 voice blessing</span>
                       </div>
 
-                      <!-- Signature Stamp -->
-                      <div class="wall-signature-stamp">
-                        <span class="signature-label">Digital Signature:</span>
-                        <div class="signature-display-box" id="wallSignatureBox">
-                          <span class="simulated-handwriting">Sarah &amp; Daniel</span>
+                      <!-- Admin Moderation Status Badge -->
+                      <div class="wall-moderation-badge">
+                        <span class="moderation-label">Admin Moderation:</span>
+                        <div class="moderation-display-box" id="wallModerationBox">
+                          <span class="moderation-pill approved">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Approved &amp; Verified
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -1886,24 +1890,48 @@
           </div>
         </div>
 
-        <!-- STEP 3: INTERACTIVE TOUCH/MOUSE SIGNATURE PAD -->
+        <!-- STEP 3: HOST ADMIN MODERATION & PRIVACY -->
         <div class="sim-section-box">
           <div class="sim-section-header">
             <span class="sim-step-num">3</span>
             <div>
-              <h4 class="sim-section-title">Digital Signature Pad (Touch / Mouse)</h4>
-              <p class="sim-section-desc">Sign with your finger or mouse just like a real paper guestbook</p>
+              <h4 class="sim-section-title">Host Admin Moderation &amp; Privacy Control</h4>
+              <p class="sim-section-desc">Host PIN-protected moderation controls how your memory appears live on the ballroom LED wall</p>
             </div>
           </div>
 
-          <div class="signature-canvas-wrap">
-            <canvas id="signatureCanvas" class="signature-pad-canvas" width="460" height="120"></canvas>
-            <div class="signature-controls">
-              <span class="signature-tip">&uarr; Draw your signature or initial in the box above</span>
-              <button type="button" class="signature-clear-btn" id="clearSignatureBtn">
-                &times; Clear Signature
-              </button>
-            </div>
+          <div class="moderation-choice-grid">
+            <label class="moderation-card active">
+              <input type="radio" name="moderationMode" value="auto-approve" checked class="moderation-radio">
+              <div class="moderation-card-body">
+                <div class="moderation-card-top">
+                  <span class="moderation-icon">⚡</span>
+                  <span class="moderation-badge-pill auto">Instant Live</span>
+                </div>
+                <strong class="moderation-title">Direct to Ballroom Wall</strong>
+                <p class="moderation-desc">Approved instantly to rotate on the ballroom projector &amp; couples private gallery.</p>
+              </div>
+            </label>
+
+            <label class="moderation-card">
+              <input type="radio" name="moderationMode" value="host-review" class="moderation-radio">
+              <div class="moderation-card-body">
+                <div class="moderation-card-top">
+                  <span class="moderation-icon">🛡️</span>
+                  <span class="moderation-badge-pill review">Host Review</span>
+                </div>
+                <strong class="moderation-title">Require Host Moderation (PIN 1234)</strong>
+                <p class="moderation-desc">Held in private queue for host approval before displaying to wedding guests on screen.</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="moderation-notice">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Couples retain 100% moderation rights in <strong>/admin</strong> (Default PIN: 1234). Inappropriate wishes or candid photos can be hidden in 1 click.</span>
           </div>
         </div>
 
@@ -2122,7 +2150,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261101_04"></script>
+  <script src="app.js?v=20261101_06"></script>
 </body>
 
 </html>
