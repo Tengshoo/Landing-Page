@@ -1,0 +1,11 @@
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / scratch
+scratch/
+.system_generated/
