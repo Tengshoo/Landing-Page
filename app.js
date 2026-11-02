@@ -3,6 +3,25 @@
  * Vanilla JavaScript Interactivity Engine
  */
 
+// --------------------------------------------------------------------------
+// 0. Clickjacking protection (frame-buster)
+// GitHub Pages cannot send X-Frame-Options / CSP frame-ancestors headers,
+// so break out if this page is embedded in a third-party frame.
+// --------------------------------------------------------------------------
+if (window.top !== window.self) {
+  // Hide everything so there is nothing to click-jack, then try to break out.
+  // (Modern browsers may block cross-origin top navigation, so hiding is the real protection.)
+  document.documentElement.style.display = 'none';
+  try {
+    window.top.location.replace(window.self.location.href);
+  } catch (e) {
+    // ignore - page stays hidden
+  }
+}
+
+// Clamp free-text user input to a sane length (defence in depth beyond maxlength)
+const clampText = (value, max) => (value || '').trim().slice(0, max);
+
 document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   // 1. Header Scroll State
@@ -707,8 +726,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const guestNameInput = document.getElementById('simGuestName');
       const guestMessageInput = document.getElementById('simGuestMessage');
-      const guestName = (guestNameInput && guestNameInput.value.trim()) || 'Pak Long Kamarul - Table 2';
-      const guestMsg = (guestMessageInput && guestMessageInput.value.trim()) || 'Tahniah Aliff & Ilya! Semoga berkekalan ke anak cucu!';
+      const guestName = clampText(guestNameInput && guestNameInput.value, 80) || 'Pak Long Kamarul - Table 2';
+      const guestMsg = clampText(guestMessageInput && guestMessageInput.value, 500) || 'Tahniah Aliff & Ilya! Semoga berkekalan ke anak cucu!';
 
       const selectedRadio = document.querySelector('input[name="moderationMode"]:checked');
       const isDirectApproved = !selectedRadio || selectedRadio.value === 'auto-approve';
@@ -724,26 +743,40 @@ document.addEventListener('DOMContentLoaded', () => {
       currentWallIndex = 0;
       renderWallSlide(0);
 
-      // Prepend to phone feed
-      const newCardHTML = `
-        <article class="feed-card photo-feed-card" style="border-color: var(--gold-champagne); animation: fadeIn 0.4s ease;">
-          <div class="feed-card-header">
-            <div class="guest-avatar-letter">${guestName.charAt(0).toUpperCase()}</div>
-            <div class="guest-details">
-              <span class="guest-name">${guestName}</span>
-              <span class="feed-time">Just now</span>
-            </div>
-            <span class="media-type-tag">Voice &amp; Photo</span>
-          </div>
-          <div class="feed-photo-frame ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}">
-            <img src="assets/candid_guest_moments.jpg" alt="Uploaded guest photo" class="feed-img filter-${selectedFilter}">
-          </div>
-          <p class="feed-caption">&ldquo;${guestMsg}&rdquo;</p>
-        </article>
-      `;
+      // Prepend to phone feed (built with DOM APIs + textContent so guest input is never parsed as HTML)
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+      const safeToken = (value) => String(value).replace(/[^a-z0-9-]/gi, '');
+
+      const card = el('article', 'feed-card photo-feed-card');
+      card.style.borderColor = 'var(--gold-champagne)';
+      card.style.animation = 'fadeIn 0.4s ease';
+
+      const cardHeader = el('div', 'feed-card-header');
+      cardHeader.appendChild(el('div', 'guest-avatar-letter', guestName.charAt(0).toUpperCase()));
+      const guestDetails = el('div', 'guest-details');
+      guestDetails.appendChild(el('span', 'guest-name', guestName));
+      guestDetails.appendChild(el('span', 'feed-time', 'Just now'));
+      cardHeader.appendChild(guestDetails);
+      cardHeader.appendChild(el('span', 'media-type-tag', 'Voice & Photo'));
+
+      const frameClass = selectedFrame !== 'none' ? ` frame-${safeToken(selectedFrame)}` : '';
+      const photoFrame = el('div', `feed-photo-frame${frameClass}`);
+      const photoImg = el('img', `feed-img filter-${safeToken(selectedFilter)}`);
+      photoImg.src = 'assets/candid_guest_moments.jpg';
+      photoImg.alt = 'Uploaded guest photo';
+      photoFrame.appendChild(photoImg);
+
+      card.appendChild(cardHeader);
+      card.appendChild(photoFrame);
+      card.appendChild(el('p', 'feed-caption', `\u201C${guestMsg}\u201D`));
 
       if (phoneFeedScroll) {
-        phoneFeedScroll.insertAdjacentHTML('afterbegin', newCardHTML);
+        phoneFeedScroll.prepend(card);
         phoneFeedScroll.scrollTop = 0;
       }
 
@@ -914,12 +947,12 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const customerName = (document.getElementById('bookingCustomerName')?.value || '').trim();
-      const coupleName = (document.getElementById('bookingCoupleName')?.value || '').trim();
-      const eventType = (document.getElementById('bookingEventType')?.value || '').trim();
-      const venue = (document.getElementById('bookingVenue')?.value || '').trim();
-      const rawDate = (document.getElementById('bookingDate')?.value || '').trim();
-      const hashtag = (document.getElementById('bookingHashtag')?.value || '').trim();
+      const customerName = clampText(document.getElementById('bookingCustomerName')?.value, 80);
+      const coupleName = clampText(document.getElementById('bookingCoupleName')?.value, 80);
+      const eventType = clampText(document.getElementById('bookingEventType')?.value, 80);
+      const venue = clampText(document.getElementById('bookingVenue')?.value, 120);
+      const rawDate = clampText(document.getElementById('bookingDate')?.value, 10);
+      const hashtag = clampText(document.getElementById('bookingHashtag')?.value, 50);
       const selectedPkg = (bookingPackageSelect?.value || 'Celebration (RM79) - Save RM20');
 
       if (!customerName || !coupleName || !eventType || !venue || !rawDate) {

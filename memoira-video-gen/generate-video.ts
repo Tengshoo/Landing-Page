@@ -2,11 +2,34 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync, spawn } from 'child_process';
+import { execFileSync, spawnSync } from 'child_process';
 import ffmpeg from 'fluent-ffmpeg';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Security helpers ------------------------------------------------------------
+
+// Escape text before injecting it into the overlay HTML template
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+}
+
+// Strip directories / unsafe characters from the output file name (prevents path traversal)
+function sanitizeOutputName(name: string): string {
+  const base = path.basename(name).replace(/[^\w.-]/g, '_').replace(/^\.+/, '');
+  if (!base) throw new Error('Invalid output file name');
+  return base.toLowerCase().endsWith('.mp4') ? base : `${base}.mp4`;
+}
+
+// Only allow http(s) targets (blocks file://, javascript:, etc.)
+function assertHttpUrl(value: string): string {
+  const url = new URL(value);
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+    throw new Error(`Unsupported URL protocol: ${url.protocol}`);
+  }
+  return url.toString();
+}
 
 // 1. Locate FFmpeg & FFprobe binary reliably on Windows / ARM64 / x64
 function findFfmpeg(): { ffmpegPath: string; ffprobePath?: string } {
@@ -122,12 +145,12 @@ function getOverlayHtml(hookText: string, watermarkText: string = 'Cuba demo di 
 <body>
   <div class="hook-wrap">
     <div class="hook-card">
-      <div class="hook-title">${hookText}</div>
+      <div class="hook-title">${escapeHtml(hookText)}</div>
     </div>
   </div>
   <div class="watermark-wrap">
     <div class="watermark-pill">
-      <span class="watermark-text">🔗 ${watermarkText}</span>
+      <span class="watermark-text">🔗 ${escapeHtml(watermarkText)}</span>
     </div>
   </div>
 </body>
@@ -147,11 +170,11 @@ export interface VideoGenOptions {
  */
 export async function generatePromoVideo(options: VideoGenOptions): Promise<string> {
   const {
-    targetUrl,
     hookText,
-    outputName = `promo-${Date.now()}.mp4`,
     watermarkText = 'Cuba demo di memoira.art',
   } = options;
+  const targetUrl = assertHttpUrl(options.targetUrl);
+  const outputName = sanitizeOutputName(options.outputName || `promo-${Date.now()}.mp4`);
 
   console.log('\n======================================================');
   console.log(`🎬 MEMOIRA PROMO VIDEO GENERATOR`);
@@ -202,7 +225,7 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   await page.waitForTimeout(2000);
 
   // If this is the demo gallery and there is an "Open Gallery & Live Wall" link, transition to the live wall
-  if (targetUrl.includes('demo.memoira.art') || targetUrl.includes('atifismagallery')) {
+  if (targetUrl.includes('demo.memoira.art')) {
     try {
       const liveWallLink = page.locator('a[href*="/wall/"], a:has-text("Open Gallery & Live Wall"), a:has-text("Live Wall")').first();
       if (await liveWallLink.isVisible({ timeout: 2000 }).catch(() => false)) {
@@ -216,7 +239,7 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   // Human-like smooth scroll down over 10-12 seconds
   console.log('📜 Melakukan smooth scrolling berperingkat (10-12 saat)...');
   const scrollSteps = 24;
-  const isLandingPage = targetUrl.includes('memoira.art') && !targetUrl.includes('demo.') && !targetUrl.includes('atifisma');
+  const isLandingPage = new URL(targetUrl).hostname === 'memoira.art';
   const scrollAmount = isLandingPage ? 280 : 140;
 
 
@@ -262,8 +285,10 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   // Get video duration via ffprobe or default 15s
   let duration = 15;
   try {
-    const probeCmd = `"${ffmpegPath}" -i "${rawVideoPath}" 2>&1`;
-    const probeOutput = execSync(probeCmd, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+    // No shell: arguments are passed as an array, so paths can't inject commands.
+    // ffmpeg prints media info to stderr and exits non-zero when no output is given.
+    const probe = spawnSync(ffmpegPath, ['-hide_banner', '-i', rawVideoPath], { encoding: 'utf8' });
+    const probeOutput = `${probe.stdout || ''}${probe.stderr || ''}`;
     const match = probeOutput.match(/Duration: (\d{2}):(\d{2}):(\d{2}\.\d+)/);
     if (match) {
       duration = parseFloat(match[1]) * 3600 + parseFloat(match[2]) * 60 + parseFloat(match[3]);
@@ -299,7 +324,7 @@ export async function generatePromoVideo(options: VideoGenOptions): Promise<stri
   );
 
   console.log(`⚡ Menjalankan transcode: ${path.basename(finalMp4Path)}...`);
-  execSync(`"${ffmpegPath}" ${ffmpegArgs.map(a => `"${a}"`).join(' ')}`, { stdio: 'inherit' });
+  execFileSync(ffmpegPath, ffmpegArgs, { stdio: 'inherit' });
 
   // Cleanup temp overlay
   try {

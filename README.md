@@ -32,7 +32,7 @@ The live interactive demo showcase on this landing page connects directly to the
 - **Live Guestbook Web App:** [https://demo.memoira.art/](https://demo.memoira.art/)
 - **Live Projector Wall:** [https://demo.memoira.art/wall/](https://demo.memoira.art/wall/)
 - **Photobooth Studio:** [https://demo.memoira.art/photobooth/](https://demo.memoira.art/photobooth/)
-- **Admin Moderation:** [https://demo.memoira.art/admin/](https://demo.memoira.art/admin/) (PIN: 1234)
+- **Admin Moderation:** [https://demo.memoira.art/admin/](https://demo.memoira.art/admin/) (PIN available on request)
 
 ---
 

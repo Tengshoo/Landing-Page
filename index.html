@@ -3,6 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Security: Content-Security-Policy & Referrer-Policy (GitHub Pages cannot set HTTP headers) -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; worker-src 'self' blob:; form-action 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#141211" media="(prefers-color-scheme: dark)">
@@ -19,17 +23,13 @@
     content="Replace traditional paper books and expensive audio guestbook rentals. Voice notes, candid photos, and written wishes from RM49.">
   <meta property="og:type" content="website">
 
-  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <!-- Fonts: Cormorant Garamond & Plus Jakarta Sans (self-hosted, no third-party requests) -->
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
 
-  <!-- Canvas Confetti for Celebration Effects (matching demo-guestbook) -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Canvas Confetti v1.9.3 for Celebration Effects (self-hosted, matching demo-guestbook) -->
+  <script src="assets/vendor/confetti.browser.min.js"></script>
 
-  <link rel="stylesheet" href="styles.css?v=20261101_06">
+  <link rel="stylesheet" href="styles.css?v=20261102_01">
 </head>
 
 <body>
@@ -380,7 +380,7 @@
             <span class="tab-module-title">📺 Live Projector Wall</span>
           </button>
           <button class="demo-module-tab" data-module="mod-admin" role="tab" aria-selected="false">
-            <span class="tab-module-badge">Host PIN: 1234</span>
+            <span class="tab-module-badge">Host PIN Protected</span>
             <span class="tab-module-title">🛡️ Host Admin &amp; Drive</span>
           </button>
         </div>
@@ -754,7 +754,7 @@
 
               <div class="admin-header-row">
                 <div>
-                  <span class="pill-badge">Host Security &bull; Default PIN: 1234</span>
+                  <span class="pill-badge">Host Security &bull; Private Couple PIN</span>
                   <h3 class="admin-heading">Aliff &amp; Ilya &bull; Host Moderation &amp; Cloud Backup</h3>
                 </div>
                 <div class="admin-status-pill">
@@ -1947,13 +1947,13 @@
 
           <div class="sim-guest-input-wrap">
             <label for="simGuestName" class="sim-label">Your Name &amp; Table Number</label>
-            <input type="text" id="simGuestName" class="sim-input" placeholder="e.g. Pak Long Kamarul - Table 2"
+            <input type="text" id="simGuestName" class="sim-input" maxlength="80" placeholder="e.g. Pak Long Kamarul - Table 2"
               value="Pak Long Kamarul - Table 2">
           </div>
 
           <div class="sim-guest-input-wrap">
             <label for="simGuestMessage" class="sim-label">Your Message for Aliff &amp; Ilya</label>
-            <textarea id="simGuestMessage" class="sim-textarea" rows="3"
+            <textarea id="simGuestMessage" class="sim-textarea" rows="3" maxlength="500"
               placeholder="Write your heartfelt blessing here...">Alhamdulillah selamat pengantin baru Aliff &amp; Ilya! Semoga ikatan perkahwinan ini diberkati Allah SWT dan kekal bahagia hingga ke syurga.</textarea>
           </div>
         </div>
@@ -2032,7 +2032,7 @@
               </label>
               <div class="booking-input-wrap">
                 <span class="booking-input-icon">&#128100;</span>
-                <input type="text" id="bookingCustomerName" class="booking-input" placeholder="e.g. Sarah Tan" required
+                <input type="text" id="bookingCustomerName" class="booking-input" maxlength="80" placeholder="e.g. Sarah Tan" required
                   autocomplete="name">
               </div>
             </div>
@@ -2044,7 +2044,7 @@
               </label>
               <div class="booking-input-wrap">
                 <span class="booking-input-icon">&#128141;</span>
-                <input type="text" id="bookingCoupleName" class="booking-input" placeholder="e.g. Aliff &amp; Ilya"
+                <input type="text" id="bookingCoupleName" class="booking-input" maxlength="80" placeholder="e.g. Aliff &amp; Ilya"
                   required>
               </div>
             </div>
@@ -2089,7 +2089,7 @@
               </label>
               <div class="booking-input-wrap">
                 <span class="booking-input-icon">&#128205;</span>
-                <input type="text" id="bookingVenue" class="booking-input"
+                <input type="text" id="bookingVenue" class="booking-input" maxlength="120"
                   placeholder="e.g. Glasshouse at Seputeh, Kuala Lumpur" required>
               </div>
             </div>
@@ -2101,7 +2101,7 @@
               </label>
               <div class="booking-input-wrap">
                 <span class="booking-input-icon">#</span>
-                <input type="text" id="bookingHashtag" class="booking-input" placeholder="e.g. #AliffIlyaForever">
+                <input type="text" id="bookingHashtag" class="booking-input" maxlength="50" placeholder="e.g. #AliffIlyaForever">
               </div>
             </div>
 
@@ -2150,7 +2150,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20261101_06"></script>
+  <script src="app.js?v=20261102_01"></script>
 </body>
 
 </html>
